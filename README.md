@@ -1,2 +1,2 @@
 # SUNFISH-Platoform-API
-APIs defining the SUNFISH Platform
+APIs of the SUNFISH Platform components
