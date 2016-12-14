@@ -2,13 +2,13 @@
     "swagger": "2.0",
     "info": {
         "version": "2.0.0",
-        "title": "SUNFISH Blockchain API - Storage of the state of the federation",
+        "title": "SUNFISH Blockchain API - Data masking keys",
         "contact": {
             "name": "Md Sadek Ferdous",
             "email": "S.Ferdous@soton.ac.uk"
         }
     },
-    "basePath": "/api/state",
+    "basePath": "/api/datamasking/keys/",
     "consumes": [
         "application/json"
     ],
@@ -18,7 +18,7 @@
     "paths": {
         "/store": {
             "post": {
-                "description": "This endpoint is used to store relevant state information.\n",
+                "description": "This endpoint is used to register a public key for an authorised data consumer account.\n",
                 "consumes": [
                     "application/json"
                 ],
@@ -32,7 +32,7 @@
                         "description": "Body in JSON",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/store-body"
+                            "$ref": "#/definitions/register-body"
                         }
                     }
                 ],
@@ -54,7 +54,7 @@
         },
         "/read": {
             "post": {
-                "description": "This endpoint is used to retrieve the state information using the serviceID. \n",
+                "description": "This endpoint is used to retrieve the public key associated with a user.\n",
                 "consumes": [
                     "application/json"
                 ],
@@ -68,7 +68,7 @@
                         "description": "Body in JSON",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/req-body"
+                            "$ref": "#/definitions/read-body"
                         }
                     }
                 ],
@@ -90,7 +90,7 @@
         },
         "/update": {
             "post": {
-                "description": "This endpoint is used to update a particular state information using the serviceID.\n",
+                "description": "This endpoint is used to update a public key given a userID.\n",
                 "consumes": [
                     "application/json"
                 ],
@@ -126,7 +126,7 @@
         },
         "/delete": {
             "post": {
-                "description": "This endpoint is used to remove the state information identified by the serviceID.\n",
+                "description": "This endpoint is used to destroy a public key given a userID. \n",
                 "consumes": [
                     "application/json"
                 ],
@@ -140,7 +140,7 @@
                         "description": "Body in JSON",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/req-body"
+                            "$ref": "#/definitions/delete-body"
                         }
                     }
                 ],
@@ -162,15 +162,14 @@
         }
     },
     "definitions": {
-        "store-body": {
+        "register-body": {
             "type": "object",
-            "description": "HTTP body defining the store operation for the /store endpoint and the read operation for the /read endpoint",
+            "description": "HTTP body defining the register operation for the /register endpoint.",
             "required": [
                 "requestorID",
                 "token",
-                "serviceID",
-                "url",
-                "name"
+                "userID",
+                "key"
             ],
             "properties": {
                 "requestorID": {
@@ -181,27 +180,23 @@
                     "type": "string",
                     "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
                 },
-                "serviceID": {
+                "userID": {
                     "type": "string",
-                    "description": "The identifier of the service."
+                    "description": "Identifier of an authorised data consumer."
                 },
-                "url": {
+                "key": {
                     "type": "string",
-                    "description": "The URL of the service."
-                },
-                "name": {
-                    "type": "string",
-                    "description": "The name of the service."
+                    "description": "Public key to be registered."
                 }
             }
         },
-        "req-body": {
+        "read-body": {
             "type": "object",
-            "description": "HTTP body defining the read operation for the /read endpoint.",
+            "description": "HTTP body defining the read operation for the /read endpoint",
             "required": [
                 "requestorID",
                 "token",
-                "serviceID"
+                "userID"
             ],
             "properties": {
                 "requestorID": {
@@ -212,20 +207,20 @@
                     "type": "string",
                     "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
                 },
-                "serviceID": {
+                "userID": {
                     "type": "string",
-                    "description": "The identifier of the service."
+                    "description": "Identifier of a user."
                 }
             }
         },
         "update-body": {
             "type": "object",
-            "description": "HTTP body defining the read operation for the /read endpoint.",
+            "description": "HTTP body defining the register operation for the /register endpoint.",
             "required": [
                 "requestorID",
                 "token",
-                "serviceID",
-                "list"
+                "userID",
+                "key"
             ],
             "properties": {
                 "requestorID": {
@@ -236,65 +231,67 @@
                     "type": "string",
                     "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
                 },
-                "serviceID": {
+                "userID": {
                     "type": "string",
-                    "description": "The identifier of the service."
+                    "description": "Identifier of a user."
                 },
-                "list": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "name": {
-                                "type": "string",
-                                "description": "The name of the attribute whose value needs to be updated."
-                            },
-                            "value": {
-                                "type": "string",
-                                "description": "The new value."
-                            }
-                        },
-                        "required": [
-                            "name",
-                            "value"
-                        ]
-                    }
+                "key": {
+                    "type": "string",
+                    "description": "The new public key."
+                }
+            }
+        },
+        "delete-body": {
+            "type": "object",
+            "description": "HTTP body defining the delete operation for the /read endpoint",
+            "required": [
+                "requestorID",
+                "token",
+                "userID"
+            ],
+            "properties": {
+                "requestorID": {
+                    "type": "string",
+                    "description": "Identifier of the requesting entity."
+                },
+                "token": {
+                    "type": "string",
+                    "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
+                },
+                "userID": {
+                    "type": "string",
+                    "description": "Identifier of a user."
                 }
             }
         },
         "response": {
             "type": "object",
-            "description": "HTTP response for a successful store operation",
+            "description": "HTTP response for a successful operation",
             "required": [
                 "message"
             ],
             "properties": {
                 "message": {
                     "type": "string",
-                    "description": "A message signifying that the state information has been successfully stored."
+                    "description": "A message signifying that the operation has been successfully performed."
                 }
             }
         },
         "read-response": {
             "type": "object",
-            "description": "HTTP response for a successful store operation",
+            "description": "HTTP response for a successful read operation",
             "required": [
-                "serviceID",
-                "url",
-                "name"
+                "userID",
+                "key"
             ],
             "properties": {
-                "serviceID": {
+                "userID": {
                     "type": "string",
-                    "description": "The identifier of the service."
+                    "description": "Identifier of the user."
                 },
-                "url": {
+                "key": {
                     "type": "string",
-                    "description": "The URL of the service."
-                },
-                "name": {
-                    "type": "string",
-                    "description": "The name of the service."
+                    "description": "The requested public key."
                 }
             }
         }
