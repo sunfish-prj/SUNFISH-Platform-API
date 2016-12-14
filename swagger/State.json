@@ -1,0 +1,302 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "2.0.0",
+        "title": "SUNFISH Blockchain API - Storage of the state of the federation",
+        "contact": {
+            "name": "Md Sadek Ferdous",
+            "email": "S.Ferdous@soton.ac.uk"
+        }
+    },
+    "basePath": "/api/state",
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/store": {
+            "post": {
+                "description": "This endpoint is used to store relevant state information.\n",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Body in JSON",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/store-body"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The response body for a successful response.",
+                        "schema": {
+                            "$ref": "#/definitions/response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request, required parameter(s) missing."
+                    },
+                    "401": {
+                        "description": "The operation is not allowed (unauthorised access, the token is invalid, etc.)."
+                    }
+                }
+            }
+        },
+        "/read": {
+            "post": {
+                "description": "This endpoint is used to retrieve the state information using the serviceID. \n",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Body in JSON",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/req-body"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The data along with the parameters have been successfully stored in the blockchain via the smart-contract.",
+                        "schema": {
+                            "$ref": "#/definitions/read-response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request, required parameter(s) missing"
+                    },
+                    "401": {
+                        "description": "The operation is not allowed (unauthorised access, the token is invalid, etc.)."
+                    }
+                }
+            }
+        },
+        "/update": {
+            "post": {
+                "description": "This endpoint is used to update a particular state information using the serviceID.\n",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Body in JSON",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/update-body"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The response body for a successful response.",
+                        "schema": {
+                            "$ref": "#/definitions/response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request, required parameter(s) missing."
+                    },
+                    "401": {
+                        "description": "The operation is not allowed (unauthorised access, the token is invalid, etc.)."
+                    }
+                }
+            }
+        },
+        "/delete": {
+            "post": {
+                "description": "This endpoint is used to remove the state information identified by the serviceID.\n",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Body in JSON",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/req-body"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The data along with the parameters have been successfully stored in the blockchain via the smart-contract.",
+                        "schema": {
+                            "$ref": "#/definitions/response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request, required parameter(s) missing"
+                    },
+                    "401": {
+                        "description": "The operation is not allowed (unauthorised access, the token is invalid, etc.)."
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "store-body": {
+            "type": "object",
+            "description": "HTTP body defining the store operation for the /store endpoint and the read operation for the /read endpoint",
+            "required": [
+                "requestorID",
+                "token",
+                "serviceID",
+                "url",
+                "name"
+            ],
+            "properties": {
+                "requestorID": {
+                    "type": "string",
+                    "description": "Identifier of the requesting entity."
+                },
+                "token": {
+                    "type": "string",
+                    "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
+                },
+                "serviceID": {
+                    "type": "string",
+                    "description": "The identifier of the service."
+                },
+                "url": {
+                    "type": "string",
+                    "description": "The URL of the service."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the service."
+                }
+            }
+        },
+        "req-body": {
+            "type": "object",
+            "description": "HTTP body defining the read operation for the /read endpoint.",
+            "required": [
+                "requestorID",
+                "token",
+                "serviceID"
+            ],
+            "properties": {
+                "requestorID": {
+                    "type": "string",
+                    "description": "Identifier of the requesting entity."
+                },
+                "token": {
+                    "type": "string",
+                    "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
+                },
+                "serviceID": {
+                    "type": "string",
+                    "description": "The identifier of the service."
+                }
+            }
+        },
+        "update-body": {
+            "type": "object",
+            "description": "HTTP body defining the read operation for the /read endpoint.",
+            "required": [
+                "requestorID",
+                "token",
+                "serviceID",
+                "list"
+            ],
+            "properties": {
+                "requestorID": {
+                    "type": "string",
+                    "description": "Identifier of the requesting entity."
+                },
+                "token": {
+                    "type": "string",
+                    "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
+                },
+                "serviceID": {
+                    "type": "string",
+                    "description": "The identifier of the service."
+                },
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "The name of the attribute whose value needs to be updated."
+                            },
+                            "value": {
+                                "type": "string",
+                                "description": "The new value."
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "value"
+                        ]
+                    }
+                }
+            }
+        },
+        "response": {
+            "type": "object",
+            "description": "HTTP response for a successful store operation",
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "A message signifying that the state information has been successfully stored."
+                }
+            }
+        },
+        "read-response": {
+            "type": "object",
+            "description": "HTTP response for a successful store operation",
+            "required": [
+                "serviceID",
+                "url",
+                "name"
+            ],
+            "properties": {
+                "serviceID": {
+                    "type": "string",
+                    "description": "The identifier of the service."
+                },
+                "url": {
+                    "type": "string",
+                    "description": "The URL of the service."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the service."
+                }
+            }
+        }
+    }
+}
