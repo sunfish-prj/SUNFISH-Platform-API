@@ -13,10 +13,10 @@ Within the swagger directory, the API specifications are provided in json so tha
 * For the policy API, use [this](http://editor.swagger.io/#/?import=https://raw.githubusercontent.com/sunfish-prj/SUNFISH-Platform-API/master/RegistryInterfaceAPI/swagger/Policy.json).
 
 * For data masking, there three separate APIs for different functionalities:
-..* Rearding data masking keys, use [this](http://editor.swagger.io/#/?import=https://raw.githubusercontent.com/sunfish-prj/SUNFISH-Platform-API/master/RegistryInterfaceAPI/swagger/DataMaskingKeys.json).
+  - Rearding data masking keys, use [this](http://editor.swagger.io/#/?import=https://raw.githubusercontent.com/sunfish-prj/SUNFISH-Platform-API/master/RegistryInterfaceAPI/swagger/DataMaskingKeys.json).
 
-..* Rearding data masking table, use [this](http://editor.swagger.io/#/?import=https://raw.githubusercontent.com/sunfish-prj/SUNFISH-Platform-API/master/RegistryInterfaceAPI/swagger/DataMaskingTable.json).
+  - Rearding data masking table, use [this](http://editor.swagger.io/#/?import=https://raw.githubusercontent.com/sunfish-prj/SUNFISH-Platform-API/master/RegistryInterfaceAPI/swagger/DataMaskingTable.json).
 
-..* Rearding data masking piece, use [this](http://editor.swagger.io/#/?import=https://raw.githubusercontent.com/sunfish-prj/SUNFISH-Platform-API/master/RegistryInterfaceAPI/swagger/DataMaskingPiece.json).
+  - Rearding data masking piece, use [this](http://editor.swagger.io/#/?import=https://raw.githubusercontent.com/sunfish-prj/SUNFISH-Platform-API/master/RegistryInterfaceAPI/swagger/DataMaskingPiece.json).
 
 * For the data anonymisation API, use [this](http://editor.swagger.io/#/?import=https://raw.githubusercontent.com/sunfish-prj/SUNFISH-Platform-API/master/RegistryInterfaceAPI/swagger/DataAnonymisation.json).
