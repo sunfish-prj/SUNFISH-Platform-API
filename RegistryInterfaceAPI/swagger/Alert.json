@@ -2,13 +2,13 @@
     "swagger": "2.0",
     "info": {
         "version": "2.0.0",
-        "title": "SUNFISH Blockchain API - Access control monitoring",
+        "title": "SUNFISH Blockchain API - Alert propagation",
         "contact": {
             "name": "Md Sadek Ferdous",
             "email": "S.Ferdous@soton.ac.uk"
         }
     },
-    "basePath": "/api/monitoring",
+    "basePath": "/api/alert",
     "consumes": [
         "application/json"
     ],
@@ -18,7 +18,7 @@
     "paths": {
         "/store": {
             "post": {
-                "description": "This endpoint is used to store relevant monitoring data.\n",
+                "description": "This endpoint is used to store alerts.\n",
                 "consumes": [
                     "application/json"
                 ],
@@ -32,7 +32,7 @@
                         "description": "Body in JSON",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/store-read-body"
+                            "$ref": "#/definitions/store-body"
                         }
                     }
                 ],
@@ -54,7 +54,7 @@
         },
         "/read": {
             "post": {
-                "description": "This endpoint is used to read the relevant monitoring data.\n",
+                "description": "This endpoint is used to retrieve the stored alert using the index.\n",
                 "consumes": [
                     "application/json"
                 ],
@@ -76,7 +76,7 @@
                     "200": {
                         "description": "The response body for a successful response.",
                         "schema": {
-                            "$ref": "#/definitions/store-read-body"
+                            "$ref": "#/definitions/read-response"
                         }
                     },
                     "400": {
@@ -90,15 +90,17 @@
         }
     },
     "definitions": {
-        "store-read-body": {
+        "store-body": {
             "type": "object",
-            "description": "HTTP body defining the store operation for the /store endpoint and the read operation for the /read endpoint.",
+            "description": "HTTP body defining the store operation for the /store endpoint.",
             "required": [
                 "loggerID",
                 "timeStamp",
                 "token",
-                "dataType",
-                "data"
+                "alertID",
+                "alertType",
+                "alertSource",
+                "alert"
             ],
             "properties": {
                 "loggerID": {
@@ -113,23 +115,36 @@
                     "type": "string",
                     "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
                 },
-                "dataType": {
+                "alertID": {
+                    "type": "string",
+                    "description": "Identifier of the newly created alert."
+                },
+                "alertType": {
                     "type": "string",
                     "enum": [
-                        "REQUEST",
-                        "RESPONSE"
+                        "POLICY_VIOLATION",
+                        "REQ_RESP_DISCREPANCY",
+                        "AUDIT_ALERT"
                     ],
-                    "description": "REQUEST/RESPONE, can be one of these values.'"
+                    "description": "POLICY_VIOLATION alert, created by the PVE, corresponds to an alert regarding a policy violation. REQ_RESP_DISCREPANCY alert, created by the PVE, corresponds to an alert regarding a discrepancy of an XACML request/response. AUDIT_ALERT alert, created by the FSA, corresponds to an alert which is generated after performing offline analysis over the access control logs."
                 },
-                "data": {
+                "alertSource": {
                     "type": "string",
-                    "description": "Base64 encoded XACML request/response."
+                    "enum": [
+                        "PVE",
+                        "FSA"
+                    ],
+                    "description": "Refences the entity which has generated the alert."
+                },
+                "alert": {
+                    "type": "string",
+                    "description": "Base64 encoded alert."
                 }
             }
         },
         "read-body": {
             "type": "object",
-            "description": "HTTP body defining the read operation for the /read endpoin.",
+            "description": "HTTP body defining the read operation for the /read endpoint.",
             "required": [
                 "loggerID",
                 "token",
@@ -159,7 +174,59 @@
             "properties": {
                 "index": {
                     "type": "integer",
-                    "description": "index of the stored values."
+                    "description": "index of the stored alert."
+                }
+            }
+        },
+        "read-response": {
+            "type": "object",
+            "description": "HTTP response for a successful read operation.",
+            "required": [
+                "loggerID",
+                "timeStamp",
+                "token",
+                "alertID",
+                "alertType",
+                "alertSource",
+                "alert"
+            ],
+            "properties": {
+                "loggerID": {
+                    "type": "string",
+                    "description": "Identifier of the requesting entity."
+                },
+                "timeStamp": {
+                    "type": "string",
+                    "description": "The timestamp in the following format - \"2006-01-02 15:04:05\"."
+                },
+                "token": {
+                    "type": "string",
+                    "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
+                },
+                "alertID": {
+                    "type": "string",
+                    "description": "Identifier of the newly created alert."
+                },
+                "alertType": {
+                    "type": "string",
+                    "enum": [
+                        "POLICY_VIOLATION",
+                        "REQ_RESP_DISCREPANCY",
+                        "AUDIT_ALERT"
+                    ],
+                    "description": "POLICY_VIOLATION alert, created by the PVE, corresponds to an alert regarding a policy violation. REQ_RESP_DISCREPANCY alert, created by the PVE, corresponds to an alert regarding a discrepancy of an XACML request/response. AUDIT_ALERT alert, created by the FSA, corresponds to an alert which is generated after performing offline analysis over the access control logs."
+                },
+                "alertSource": {
+                    "type": "string",
+                    "enum": [
+                        "PVE",
+                        "FSA"
+                    ],
+                    "description": "Refences the entity which has generated the alert."
+                },
+                "alert": {
+                    "type": "string",
+                    "description": "Base64 encoded alert."
                 }
             }
         }

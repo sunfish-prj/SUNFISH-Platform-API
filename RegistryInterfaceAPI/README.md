@@ -20,3 +20,5 @@ Within the swagger directory, the API specifications are provided in json so tha
   - Rearding data masking piece, use [this](http://editor.swagger.io/#/?import=https://raw.githubusercontent.com/sunfish-prj/SUNFISH-Platform-API/master/RegistryInterfaceAPI/swagger/DataMaskingPiece.json).
 
 * For the data anonymisation API, use [this](http://editor.swagger.io/#/?import=https://raw.githubusercontent.com/sunfish-prj/SUNFISH-Platform-API/master/RegistryInterfaceAPI/swagger/DataAnonymisation.json).
+
+* For the alert propagation API, use [this](http://editor.swagger.io/#/?import=https://raw.githubusercontent.com/sunfish-prj/SUNFISH-Platform-API/master/RegistryInterfaceAPI/swagger/Alert.json).
