@@ -1,0 +1,164 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "The PAP interface follows a straight forward REST interface, as it requires bare access to the policy storage.",
+    "version" : "1.0.0",
+    "title" : "SUNFISH Policy Administration Point (PAP) API",
+    "contact" : {
+      "name" : "Alexander Marsalek",
+      "email" : "alexander.marsalek@a-sit.at"
+    }
+  },
+  "basePath" : "/pap/",
+  "schemes" : [ "http", "https" ],
+  "paths" : {
+    "/v1/policies" : {
+      "get" : {
+        "summary" : "This endpoint is used by entities interfacing with the PAP to retrieve policies",
+        "description" : "",
+        "operationId" : "get-policies",
+        "parameters" : [ {
+          "name" : "SUNFISH-issuer",
+          "in" : "header",
+          "description" : "References the entity that issued the request. This field may include the data that confirms the authentication of source entity and its authentication level.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "The body of the response contains the requested policies according to the schema defined in Listing 3. The response result set only contains a certain amount of entries. Pagination is done using the Web Linking approach according to RFC5988. A Link header is included in the response pointing to the next resultset: Link: <https://<host>/pap/api/v1/policies/?page=2>; rel=\"next\" The possible “rel” values are \"next\" pointing to the next result-set. Pagination URLs are not allowed to be constructed manually.",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          "400" : {
+            "description" : "Invalid request"
+          },
+          "403" : {
+            "description" : "The requestor is not allowed to perform this operation"
+          },
+          "404" : {
+            "description" : "No policies matching the specified request were found"
+          }
+        }
+      },
+      "post" : {
+        "summary" : "This endpoint is used by entities interfacing with the PAP to add a policy",
+        "description" : "",
+        "operationId" : "add-policies",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "The body of the request contains a to be added policy according to the schema in Listing 1.",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "SUNFISH-issuer",
+          "in" : "header",
+          "description" : "References the entity that issued the request. This field may include the data that confirms the authentication of source entity and its authentication level.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Created successful",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          "400" : {
+            "description" : "Invalid request"
+          },
+          "403" : {
+            "description" : "The requestor is not allowed to perform this operation"
+          },
+          "409" : {
+            "description" : "The policy exists already"
+          }
+        }
+      },
+      "put" : {
+        "summary" : "This endpoint is used by entities interfacing with the PAP to update a policy",
+        "description" : "",
+        "operationId" : "update-policies",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "The body of the request contains a to be added policy according to the schema in Listing 1.",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "SUNFISH-issuer",
+          "in" : "header",
+          "description" : "References the entity that issued the request. This field may include the data that confirms the authentication of source entity and its authentication level.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "The body of the request contains a to be updated policy according to the schema in Listing 1.",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          "400" : {
+            "description" : "Invalid request"
+          },
+          "403" : {
+            "description" : "The requestor is not allowed to perform this operation"
+          },
+          "404" : {
+            "description" : "Policy to update not found"
+          }
+        }
+      }
+    },
+    "/v1/policies/{id}/{version}" : {
+      "delete" : {
+        "summary" : "This endpoint is used by entities to remove policies",
+        "description" : "",
+        "operationId" : "delete-policies",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Id of the policy to delete",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "version",
+          "in" : "path",
+          "description" : "Specifies the version of the policy to be deleted",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "SUNFISH-issuer",
+          "in" : "header",
+          "description" : "References the entity that issued the request. This field may include the data that confirms the authentication of source entity and its authentication level.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Deleted successful",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          "400" : {
+            "description" : "Invalid request"
+          },
+          "403" : {
+            "description" : "The requestor is not allowed to perform this operation"
+          },
+          "404" : {
+            "description" : "Policy not found"
+          }
+        }
+      }
+    }
+  }
+}

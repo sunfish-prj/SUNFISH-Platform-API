@@ -1,0 +1,98 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "The PIP is generally defined as “the system entity that acts as a source of attribute values",
+    "version" : "1.0.0",
+    "title" : "SUNFISH Policy Information Point (PIP) API",
+    "contact" : {
+      "name" : "Dominik Ziegler",
+      "email" : "dominik.ziegler@a-sit.at"
+    }
+  },
+  "basePath" : "/pip/",
+  "schemes" : [ "http", "https" ],
+  "paths" : {
+    "/v1/collect" : {
+      "get" : {
+        "summary" : "This endpoint is used to retrieve a collection of all available attribute ids",
+        "description" : "",
+        "operationId" : "collect",
+        "produces" : [ "application/xml+xacml" ],
+        "parameters" : [ {
+          "name" : "SUNFISH-issuer",
+          "in" : "header",
+          "description" : "References the entity that issued the request. This field includes the data that confirms the authentication of source entity and its authentication level.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Contains a collection of attribute designators ids according to the attribute designator set schema.",
+            "schema" : {
+              "type" : "string"
+            },
+            "headers" : {
+              "SUNFISH-issuer" : {
+                "type" : "string",
+                "description" : "References the entity that issued the request. This field includes the data that confirms the authentication of source entity and its authentication level."
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request"
+          },
+          "403" : {
+            "description" : "The requestor is not allowed"
+          }
+        }
+      }
+    },
+    "/v1/request" : {
+      "post" : {
+        "summary" : "This endpoint is used to retrieve additional attributes",
+        "description" : "",
+        "operationId" : "pip-request",
+        "consumes" : [ "application/xml+xacml" ],
+        "produces" : [ "application/xml+xacml" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Contains the requested attributes and the request context as issued by the PEP. If multiple PIPs are involved, the PIP always receive the most recent request context.",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "SUNFISH-issuer",
+          "in" : "header",
+          "description" : "References the entity that issued the request. This field includes the data that confirms the authentication of source entity and its authentication level.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "The request context was enhanced with all or some of the requested attributes.",
+            "schema" : {
+              "type" : "string"
+            },
+            "headers" : {
+              "SUNFISH-issuer" : {
+                "type" : "string",
+                "description" : "References the entity that issued the request. This field includes the data that confirms the authentication of source entity and its authentication level."
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request"
+          },
+          "403" : {
+            "description" : "The requestor is not allowed"
+          },
+          "404" : {
+            "description" : "This PIP does not provide any of the requested attributes."
+          }
+        }
+      }
+    }
+  }
+}

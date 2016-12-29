@@ -1,0 +1,246 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "The PRP is not included in the OASIS XACML standard, but provides another abstraction level of the PAP",
+    "version" : "1.0.0",
+    "title" : "SUNFISH Policy Retrieval Point (PRP) API",
+    "contact" : {
+      "name" : "Alexander Marsalek",
+      "email" : "alexander.marsalek@a-sit.at"
+    }
+  },
+  "basePath" : "/prp/",
+  "schemes" : [ "http", "https" ],
+  "paths" : {
+    "/v1/collect" : {
+      "post" : {
+        "summary" : "This endpoint is used by PDPs to retrieve a collection of policies for a specified decision request.",
+        "description" : "",
+        "operationId" : "collect",
+        "consumes" : [ "application/xml+xacml" ],
+        "produces" : [ "application/xml+xacml" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Contains the request formatted according to the XACML decision request language with all relevant data and attributes necessary for the PRP to identify the relevant policies.",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Contains a single policy set where all policies are contained or references according to the XACML policy set schema.",
+            "schema" : {
+              "type" : "string"
+            },
+            "headers" : {
+              "expirationTime" : {
+                "type" : "string",
+                "description" : "Specifies the expiration time of the policy set in milliseconds starting from midnight, January 1, 1970 UTC. After this time the policy set must not be used."
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request"
+          },
+          "404" : {
+            "description" : "No policies matching the specified request were found"
+          }
+        }
+      }
+    },
+    "/v1/policyset/{id}/{version}" : {
+      "get" : {
+        "summary" : "This endpoint is used to retrieve a policy by id. Optionally a version can be specified.",
+        "description" : "",
+        "operationId" : "getPolicySet",
+        "consumes" : [ "application/xml+xacml" ],
+        "produces" : [ "application/xml+xacml" ],
+        "parameters" : [ {
+          "name" : "rootPolicySet",
+          "in" : "query",
+          "description" : "true|false Defines if a root policy-set or a re-usable policies-set should be returned.",
+          "required" : true,
+          "type" : "boolean"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Specifies the id of the policy set to be returned in the response.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "version",
+          "in" : "path",
+          "description" : "Specifies the version of the policy set to be returned in the response. If no version is specified the newest policy set will be returned.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Contains the requested policy set",
+            "schema" : {
+              "type" : "string"
+            },
+            "headers" : {
+              "expirationTime" : {
+                "type" : "string",
+                "description" : "Specifies the expiration time of the policy set in milliseconds starting from midnight, January 1, 1970 UTC. After this time the policy set must not be used."
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request"
+          },
+          "403" : {
+            "description" : "The requestor is not allowed to retrieve this policy"
+          },
+          "404" : {
+            "description" : "The policy set with the specified id was not found"
+          }
+        }
+      }
+    },
+    "/v1/policy/{id}" : {
+      "get" : {
+        "summary" : "This endpoint is used to retrieve a policy by id. Optionally a version can be specified.",
+        "description" : "",
+        "operationId" : "getPolicy",
+        "consumes" : [ "application/xml+xacml" ],
+        "produces" : [ "application/xml+xacml" ],
+        "parameters" : [ {
+          "name" : "rootPolicy",
+          "in" : "query",
+          "description" : "true|false Defines if a root policy or a re-usable policy should be returned.",
+          "required" : true,
+          "type" : "boolean"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Specifies the id of the policy to be returned in the response.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Contains the requested policy set",
+            "schema" : {
+              "type" : "string"
+            },
+            "headers" : {
+              "expirationTime" : {
+                "type" : "string",
+                "description" : "Specifies the expiration time of the policy set in milliseconds starting from midnight, January 1, 1970 UTC. After this time the policy set must not be used."
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request"
+          },
+          "403" : {
+            "description" : "The requestor is not allowed to retrieve this policy"
+          },
+          "404" : {
+            "description" : "The policy set with the specified id was not found"
+          }
+        }
+      }
+    },
+    "/v1/policyset/{id}" : {
+      "get" : {
+        "summary" : "This endpoint is used to retrieve a policy by id. Optionally a version can be specified.",
+        "description" : "",
+        "operationId" : "getPolicySet",
+        "consumes" : [ "application/xml+xacml" ],
+        "produces" : [ "application/xml+xacml" ],
+        "parameters" : [ {
+          "name" : "rootPolicySet",
+          "in" : "query",
+          "description" : "true|false Defines if a root policy-set or a re-usable policies-set should be returned.",
+          "required" : true,
+          "type" : "boolean"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Specifies the id of the policy set to be returned in the response.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Contains the requested policy set",
+            "schema" : {
+              "type" : "string"
+            },
+            "headers" : {
+              "expirationTime" : {
+                "type" : "string",
+                "description" : "Specifies the expiration time of the policy set in milliseconds starting from midnight, January 1, 1970 UTC. After this time the policy set must not be used."
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request"
+          },
+          "403" : {
+            "description" : "The requestor is not allowed to retrieve this policy"
+          },
+          "404" : {
+            "description" : "The policy set with the specified id was not found"
+          }
+        }
+      }
+    },
+    "/v1/policy/{id}/{version}" : {
+      "get" : {
+        "summary" : "This endpoint is used to retrieve a policy by id. Optionally a version can be specified.",
+        "description" : "",
+        "operationId" : "getPolicy",
+        "consumes" : [ "application/xml+xacml" ],
+        "produces" : [ "application/xml+xacml" ],
+        "parameters" : [ {
+          "name" : "rootPolicy",
+          "in" : "query",
+          "description" : "true|false Defines if a root policy or a re-usable policy should be returned.",
+          "required" : true,
+          "type" : "boolean"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Specifies the id of the policy to be returned in the response.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "version",
+          "in" : "path",
+          "description" : "Specifies the version of the policy to be returned in the response. If no version is specified the newest policy will be returned.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Contains the requested policy set",
+            "schema" : {
+              "type" : "string"
+            },
+            "headers" : {
+              "expirationTime" : {
+                "type" : "string",
+                "description" : "Specifies the expiration time of the policy set in milliseconds starting from midnight, January 1, 1970 UTC. After this time the policy set must not be used."
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request"
+          },
+          "403" : {
+            "description" : "The requestor is not allowed to retrieve this policy"
+          },
+          "404" : {
+            "description" : "The policy set with the specified id was not found"
+          }
+        }
+      }
+    }
+  }
+}

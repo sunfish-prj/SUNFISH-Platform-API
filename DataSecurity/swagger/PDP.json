@@ -1,0 +1,80 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "This API is primarily used by adjacent PEPs to issue authorization requests for intra-zone and cross-zone interactions. In this specification we partially rely on the REST profile suggested by the OASIS XACML Standard",
+    "version" : "1.0.0",
+    "title" : "SUNFISH Policy Decision Point (PDP) API",
+    "contact" : {
+      "name" : "Bernd Prünster",
+      "email" : "bernd.pruenster@a-sit.at"
+    }
+  },
+  "basePath" : "/pdp/",
+  "schemes" : [ "http", "https" ],
+  "paths" : {
+    "/v1" : {
+      "get" : {
+        "summary" : "API entry point. This point is used to identify functionality and endpoints provided by PDP.",
+        "description" : "",
+        "operationId" : "pdp-entry",
+        "produces" : [ "application/home+xml" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "The response contains a resource with link relation http://docs.oasis-open.org/ns/xacml/relation/pdp and a valid URL.",
+            "headers" : {
+              "SUNFISH-signature" : {
+                "type" : "string",
+                "description" : "This field is used to provide integrity and authenticity of messages."
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/authorization" : {
+      "post" : {
+        "summary" : "This endpoint is used by PEPs to issue authorization decision requests to PDP. These requests are sent using POST method. Inputs to this endpoint are parameters that describe access requests initiated by entities interacting through the calling PEP. Additionally, this request contains other contextual parameters that can be used by PDP to evaluate request.",
+        "description" : "",
+        "operationId" : "authorization",
+        "consumes" : [ "application/xml+xacml" ],
+        "produces" : [ "application/xml+xacml" ],
+        "parameters" : [ {
+          "name" : "SUNFISH-signature",
+          "in" : "header",
+          "description" : "This field is used to provide integrity and authenticity of messages.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Contains XACML-formatted (or other) request with all relevant data and attributes necessary for PDP to perform authorization decision.",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Contains complete XACML-formatted answer. Body can include additional answer that deals with activity context, if requested.",
+            "schema" : {
+              "type" : "string"
+            },
+            "headers" : {
+              "SUNFISH-signature" : {
+                "type" : "string",
+                "description" : "This field is used to provide integrity and authenticity of messages."
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid XACML request"
+          },
+          "404" : {
+            "description" : "Requestor is not allowed to perform the request"
+          }
+        }
+      }
+    }
+  }
+}
