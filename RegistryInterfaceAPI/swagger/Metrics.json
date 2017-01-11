@@ -8,7 +8,7 @@
             "email": "S.Ferdous@soton.ac.uk"
         }
     },
-    "basePath": "/api/sla",
+    "basePath": "/api/metrics",
     "consumes": [
         "application/json"
     ],
