@@ -23,4 +23,4 @@ Within the swagger directory, the API specifications are provided in json so tha
 
 * For the alert propagation API, use [this](http://editor.swagger.io/#/?import=https://raw.githubusercontent.com/sunfish-prj/SUNFISH-Platform-API/master/RegistryInterfaceAPI/swagger/Alert.json).
 
-* For the SLA Metrics API, use [this](http://editor.swagger.io/#/?import=https://raw.githubusercontent.com/sunfish-prj/SUNFISH-Platform-API/master/RegistryInterfaceAPI/swagger/SLA.json).
+* For the SLA Metrics API, use [this](http://editor.swagger.io/#/?import=https://raw.githubusercontent.com/sunfish-prj/SUNFISH-Platform-API/master/RegistryInterfaceAPI/swagger/Metrics.json).
