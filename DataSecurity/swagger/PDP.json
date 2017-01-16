@@ -32,6 +32,94 @@
         }
       }
     },
+    "/v1/verifyServicePolicy" : {
+      "post" : {
+        "summary" : "Verify a service policy",
+        "description" : "",
+        "operationId" : "verify-service-policy",
+        "consumes" : [ "application/xml+xacml" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "SUNFISH-signature",
+          "in" : "header",
+          "description" : "This field is used to provide integrity and authenticity of messages.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Contains XACML-formatted policy for PDP to perform verification.",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Contains information about the verification result.",
+            "schema" : {
+              "$ref" : "#/definitions/VerifyPolicyResult"
+            },
+            "headers" : {
+              "SUNFISH-signature" : {
+                "type" : "string",
+                "description" : "This field is used to provide integrity and authenticity of messages."
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request"
+          },
+          "404" : {
+            "description" : "The requestor is not allowed"
+          }
+        }
+      }
+    },
+    "/v1/verifyServicePolicySet" : {
+      "post" : {
+        "summary" : "Verify a service policy set",
+        "description" : "",
+        "operationId" : "verify-service-policy-set",
+        "consumes" : [ "application/xml+xacml" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "SUNFISH-signature",
+          "in" : "header",
+          "description" : "This field is used to provide integrity and authenticity of messages.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Contains XACML-formatted policy set for PDP to perform verification.",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Contains information about the verification result.",
+            "schema" : {
+              "$ref" : "#/definitions/VerifyPolicyResult"
+            },
+            "headers" : {
+              "SUNFISH-signature" : {
+                "type" : "string",
+                "description" : "This field is used to provide integrity and authenticity of messages."
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request"
+          },
+          "404" : {
+            "description" : "The requestor is not allowed"
+          }
+        }
+      }
+    },
     "/v1/authorization" : {
       "post" : {
         "summary" : "This endpoint is used by PEPs to issue authorization decision requests to PDP. These requests are sent using POST method. Inputs to this endpoint are parameters that describe access requests initiated by entities interacting through the calling PEP. Additionally, this request contains other contextual parameters that can be used by PDP to evaluate request.",
@@ -73,6 +161,27 @@
           "404" : {
             "description" : "Requestor is not allowed to perform the request"
           }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "VerifyPolicyResult" : {
+      "type" : "object",
+      "properties" : {
+        "status" : {
+          "type" : "string",
+          "description" : "Indicates the status of the verification operation.",
+          "enum" : [ "success", "error" ]
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Description, containing detailed information about the requested operation."
+        },
+        "statusCode" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Status code of the operation."
         }
       }
     }
