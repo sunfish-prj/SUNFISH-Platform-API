@@ -18,7 +18,7 @@
     "paths": {
         "/store": {
             "post": {
-                "description": "This endpoint is used to store a new a policy.\n",
+                "description": "This endpoint is used to store a new policy.\n",
                 "consumes": [
                     "application/json"
                 ],
@@ -54,7 +54,7 @@
         },
         "/read": {
             "post": {
-                "description": "This endpoint is used to retrieve a policy by an id and version.\n",
+                "description": "This endpoint is used to retrieve a policy by an id.\n",
                 "consumes": [
                     "application/json"
                 ],
@@ -126,7 +126,7 @@
         },
         "/update": {
             "post": {
-                "description": "This endpoint is used to update a policy by an id and version.\n",
+                "description": "This endpoint is used to update a policy by an id.\n",
                 "consumes": [
                     "application/json"
                 ],
@@ -162,7 +162,7 @@
         },
         "/delete": {
             "post": {
-                "description": "This endpoint is used to remove a policy by id and version\n",
+                "description": "This endpoint is used to remove a policy by an id.\n",
                 "consumes": [
                     "application/json"
                 ],
@@ -205,7 +205,6 @@
                 "requestorID",
                 "token",
                 "policy",
-                "version",
                 "expirationTime",
                 "id"
             ],
@@ -221,10 +220,6 @@
                 "policy": {
                     "type": "string",
                     "description": "Base64-encoded policy data."
-                },
-                "version": {
-                    "type": "string",
-                    "description": "The version of the policy."
                 },
                 "expirationTime": {
                     "type": "string",
@@ -251,7 +246,6 @@
                 "requestorID",
                 "token",
                 "id",
-                "version",
                 "rootPolicy"
             ],
             "properties": {
@@ -266,10 +260,6 @@
                 "id": {
                     "type": "string",
                     "description": "The identifer for the policy."
-                },
-                "version": {
-                    "type": "string",
-                    "description": "The version of the policy."
                 },
                 "rootPolicy": {
                     "type": "boolean",
@@ -312,7 +302,6 @@
                 "requestorID",
                 "token",
                 "id",
-                "version",
                 "policy"
             ],
             "properties": {
@@ -328,10 +317,6 @@
                     "type": "string",
                     "description": "Specifies the id of the policy to be updated in the response."
                 },
-                "version": {
-                    "type": "string",
-                    "description": "Specifies the version of the policy."
-                },
                 "policy": {
                     "type": "string",
                     "description": "Base64-encoded policy data."
@@ -344,8 +329,7 @@
             "required": [
                 "requestorID",
                 "token",
-                "id",
-                "version"
+                "id"
             ],
             "properties": {
                 "requestorID": {
@@ -359,10 +343,6 @@
                 "id": {
                     "type": "string",
                     "description": "Specifies the id of the policy to be updated in the response."
-                },
-                "version": {
-                    "type": "string",
-                    "description": "Specifies the version of the policy."
                 }
             }
         },
@@ -413,10 +393,6 @@
                                 "type": "string",
                                 "description": "Specifies the id of the policy."
                             },
-                            "version": {
-                                "type": "string",
-                                "description": "Specifies the version of the policy."
-                            },
                             "policy": {
                                 "type": "string",
                                 "description": "BASE64-enocded data of the policy."
@@ -424,7 +400,6 @@
                         },
                         "required": [
                             "id",
-                            "version",
                             "policy"
                         ]
                     }
