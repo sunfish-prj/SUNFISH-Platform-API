@@ -122,11 +122,12 @@
                 "alertType": {
                     "type": "string",
                     "enum": [
-                        "POLICY_VIOLATION",
-                        "REQ_RESP_DISCREPANCY",
-                        "AUDIT_ALERT"
+                        "POLICY_VIOLATION_ALERT",
+                        "REQ_RESP_DISCREPANCY_ALERT",
+                        "AUDIT_ALERT",
+			"SLA_ALERT"
                     ],
-                    "description": "POLICY_VIOLATION alert, created by the PVE, corresponds to an alert regarding a policy violation. REQ_RESP_DISCREPANCY alert, created by the PVE, corresponds to an alert regarding a discrepancy of an XACML request/response. AUDIT_ALERT alert, created by the FSA, corresponds to an alert which is generated after performing offline analysis over the access control logs."
+                    "description": "POLICY_VIOLATION_ALERT, created by the PVE, corresponds to an alert regarding a policy violation. REQ_RESP_DISCREPANCY_ALERT, created by the PVE, corresponds to an alert regarding a discrepancy of an XACML request/response. AUDIT_ALERT, created by the FSA, corresponds to an alert which is generated after performing offline analysis over the access control logs.SLA_ALERT, created by FAM, corresponds to an alert which is generated after an SLA violation is detected."
                 },
                 "alertSource": {
                     "type": "string",
@@ -210,11 +211,12 @@
                 "alertType": {
                     "type": "string",
                     "enum": [
-                        "POLICY_VIOLATION",
-                        "REQ_RESP_DISCREPANCY",
-                        "AUDIT_ALERT"
+                        "POLICY_VIOLATION_ALERT",
+                        "REQ_RESP_DISCREPANCY_ALERT",
+                        "AUDIT_ALERT",
+			"SLA_ALERT"
                     ],
-                    "description": "POLICY_VIOLATION alert, created by the PVE, corresponds to an alert regarding a policy violation. REQ_RESP_DISCREPANCY alert, created by the PVE, corresponds to an alert regarding a discrepancy of an XACML request/response. AUDIT_ALERT alert, created by the FSA, corresponds to an alert which is generated after performing offline analysis over the access control logs."
+                    "description": "POLICY_VIOLATION_ALERT, created by the PVE, corresponds to an alert regarding a policy violation. REQ_RESP_DISCREPANCY_ALERT, created by the PVE, corresponds to an alert regarding a discrepancy of an XACML request/response. AUDIT_ALERT, created by the FSA, corresponds to an alert which is generated after performing offline analysis over the access control logs.SLA_ALERT, created by FAM, corresponds to an alert which is generated after an SLA violation is detected."
                 },
                 "alertSource": {
                     "type": "string",
