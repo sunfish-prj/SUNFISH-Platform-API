@@ -2,13 +2,13 @@
     "swagger": "2.0",
     "info": {
         "version": "2.0.0",
-        "title": "SUNFISH Blockchain API - Alert propagation",
+        "title": "SUNFISH Blockchain API - Federation",
         "contact": {
             "name": "Md Sadek Ferdous",
             "email": "S.Ferdous@soton.ac.uk"
         }
     },
-    "basePath": "/api/alert",
+    "basePath": "/api/fed",
     "consumes": [
         "application/json"
     ],
@@ -16,9 +16,9 @@
         "application/json"
     ],
     "paths": {
-        "/store": {
+        "/create": {
             "post": {
-                "description": "This endpoint is used to store alerts.\n",
+                "description": "This endpoint is used to create a new federation.\n",
                 "consumes": [
                     "application/json"
                 ],
@@ -32,7 +32,7 @@
                         "description": "Body in JSON",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/store-body"
+                            "$ref": "#/definitions/create-body"
                         }
                     }
                 ],
@@ -40,7 +40,7 @@
                     "200": {
                         "description": "The response body for a successful response.",
                         "schema": {
-                            "$ref": "#/definitions/store-response"
+                            "$ref": "#/definitions/create-response"
                         }
                     },
                     "400": {
@@ -52,9 +52,9 @@
                 }
             }
         },
-        "/read": {
+        "/add": {
             "post": {
-                "description": "This endpoint is used to retrieve the stored alert using the index.\n",
+                "description": "This endpoint is used to add a new member in the federation.\n",
                 "consumes": [
                     "application/json"
                 ],
@@ -68,7 +68,7 @@
                         "description": "Body in JSON",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/read-body"
+                            "$ref": "#/definitions/add-body"
                         }
                     }
                 ],
@@ -76,7 +76,7 @@
                     "200": {
                         "description": "The response body for a successful response.",
                         "schema": {
-                            "$ref": "#/definitions/read-response"
+                            "$ref": "#/definitions/add-response"
                         }
                     },
                     "400": {
@@ -84,23 +84,57 @@
                     },
                     "401": {
                         "description": "The operation is not allowed (unauthorised access, the token is invalid, etc.)."
+                    }
+                }
+            }
+        },
+        "/remove": {
+            "post": {
+                "description": "This endpoint is used to remove a member from the federation. \n",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Body in JSON",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/remove-body"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The response body for a successful response.",
+                        "schema": {
+                            "$ref": "#/definitions/remove-response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request, required parameter(s) missing."
+                    },
+                    "401": {
+                        "description": "The operation is not allowed (unauthorised access, the token is invalid, etc.).          "
                     }
                 }
             }
         }
     },
     "definitions": {
-        "store-body": {
+        "create-body": {
             "type": "object",
-            "description": "HTTP body defining the store operation for the /store endpoint.",
+            "description": "HTTP body defining the create operation for the /create endpoint.",
             "required": [
                 "requestorID",
                 "timeStamp",
                 "token",
-                "alertID",
-                "alertType",
-                "alertSource",
-                "alert"
+                "id",
+                "name"
             ],
             "properties": {
                 "requestorID": {
@@ -115,40 +149,24 @@
                     "type": "string",
                     "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
                 },
-                "alertID": {
+                "id": {
                     "type": "string",
-                    "description": "Identifier of the newly created alert."
+                    "description": "An unique identifier for the new federation."
                 },
-                "alertType": {
+                "name": {
                     "type": "string",
-                    "enum": [
-                        "POLICY_VIOLATION",
-                        "REQ_RESP_DISCREPANCY",
-                        "AUDIT_ALERT"
-                    ],
-                    "description": "POLICY_VIOLATION alert, created by the PVE, corresponds to an alert regarding a policy violation. REQ_RESP_DISCREPANCY alert, created by the PVE, corresponds to an alert regarding a discrepancy of an XACML request/response. AUDIT_ALERT alert, created by the FSA, corresponds to an alert which is generated after performing offline analysis over the access control logs."
-                },
-                "alertSource": {
-                    "type": "string",
-                    "enum": [
-                        "PVE",
-                        "FSA"
-                    ],
-                    "description": "Refences the entity which has generated the alert."
-                },
-                "alert": {
-                    "type": "string",
-                    "description": "Base64 encoded alert."
+                    "description": "The name for the new federation"
                 }
             }
         },
-        "read-body": {
+        "add-body": {
             "type": "object",
             "description": "HTTP body defining the read operation for the /read endpoint.",
             "required": [
                 "requestorID",
                 "token",
-                "index"
+                "timeStamp",
+                "newMember"
             ],
             "properties": {
                 "requestorID": {
@@ -158,75 +176,81 @@
                 "token": {
                     "type": "string",
                     "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
-                },
-                "index": {
-                    "type": "integer",
-                    "description": "Index of the requested data as provided during the store operation."
-                }
-            }
-        },
-        "store-response": {
-            "type": "object",
-            "description": "HTTP response for a successful store operation.",
-            "required": [
-                "index"
-            ],
-            "properties": {
-                "index": {
-                    "type": "integer",
-                    "description": "index of the stored alert."
-                }
-            }
-        },
-        "read-response": {
-            "type": "object",
-            "description": "HTTP response for a successful read operation.",
-            "required": [
-                "requestorID",
-                "timeStamp",
-                "token",
-                "alertID",
-                "alertType",
-                "alertSource",
-                "alert"
-            ],
-            "properties": {
-                "requestorID": {
-                    "type": "string",
-                    "description": "Identifier of the requesting entity."
                 },
                 "timeStamp": {
                     "type": "string",
                     "description": "The timestamp in the following format - \"2006-01-02 15:04:05\"."
                 },
+                "newMember": {
+                    "type": "string",
+                    "description": "The name for the new member"
+                }
+            }
+        },
+        "remove-body": {
+            "type": "object",
+            "description": "HTTP body defining the remove operation for the /remove endpoint.",
+            "required": [
+                "requestorID",
+                "token",
+                "timeStamp",
+                "newMember"
+            ],
+            "properties": {
+                "requestorID": {
+                    "type": "string",
+                    "description": "Identifier of the requesting entity."
+                },
                 "token": {
                     "type": "string",
                     "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
                 },
-                "alertID": {
+                "timeStamp": {
                     "type": "string",
-                    "description": "Identifier of the newly created alert."
+                    "description": "The timestamp in the following format - \"2006-01-02 15:04:05\"."
                 },
-                "alertType": {
+                "newMember": {
                     "type": "string",
-                    "enum": [
-                        "POLICY_VIOLATION",
-                        "REQ_RESP_DISCREPANCY",
-                        "AUDIT_ALERT"
-                    ],
-                    "description": "POLICY_VIOLATION alert, created by the PVE, corresponds to an alert regarding a policy violation. REQ_RESP_DISCREPANCY alert, created by the PVE, corresponds to an alert regarding a discrepancy of an XACML request/response. AUDIT_ALERT alert, created by the FSA, corresponds to an alert which is generated after performing offline analysis over the access control logs."
-                },
-                "alertSource": {
+                    "description": "The name for the member."
+                }
+            }
+        },
+        "create-response": {
+            "type": "object",
+            "description": "HTTP response for a successful create operation.",
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "message": {
                     "type": "string",
-                    "enum": [
-                        "PVE",
-                        "FSA"
-                    ],
-                    "description": "Refences the entity which has generated the alert."
-                },
-                "alert": {
+                    "description": "a message in JSON format signifying that the new federation has been created."
+                }
+            }
+        },
+        "add-response": {
+            "type": "object",
+            "description": "HTTP response for a successful add operation.",
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "message": {
                     "type": "string",
-                    "description": "Base64 encoded alert."
+                    "description": "a message in JSON format signifying that the new member has been added in the federation."
+                }
+            }
+        },
+        "remove-response": {
+            "type": "object",
+            "description": "HTTP response for a successful remove operation.",
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "a message in JSON format signifying that the member has been removed from the federation."
                 }
             }
         }

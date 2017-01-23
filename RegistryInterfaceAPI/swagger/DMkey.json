@@ -1,0 +1,322 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "2.0.0",
+        "title": "SUNFISH Blockchain API - Data masking FPE/FPT keys",
+        "contact": {
+            "name": "Md Sadek Ferdous",
+            "email": "S.Ferdous@soton.ac.uk"
+        }
+    },
+    "basePath": "/api/dm",
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/register": {
+            "post": {
+                "description": "This endpoint is used to register an/a encryption/tokenization key event.\n",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Body in JSON",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/register-body"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The response body for a successful response.",
+                        "schema": {
+                            "$ref": "#/definitions/response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request, required parameter(s) missing."
+                    },
+                    "401": {
+                        "description": "The operation is not allowed (unauthorised access, the token is invalid, etc.)."
+                    }
+                }
+            }
+        },
+        "/read": {
+            "post": {
+                "description": "This endpoint is used to retrieve a key.\n",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Body in JSON",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/read-body"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The response body for a successful response.",
+                        "schema": {
+                            "$ref": "#/definitions/read-response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request, required parameter(s) missing"
+                    },
+                    "401": {
+                        "description": "The operation is not allowed (unauthorised access, the token is invalid, etc.)."
+                    }
+                }
+            }
+        },
+        "/update": {
+            "post": {
+                "description": "This endpoint is used to update a public key given a userID.\n",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Body in JSON",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/update-body"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The response body for a successful response.",
+                        "schema": {
+                            "$ref": "#/definitions/message_response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request, required parameter(s) missing."
+                    },
+                    "401": {
+                        "description": "The operation is not allowed (unauthorised access, the token is invalid, etc.)."
+                    }
+                }
+            }
+        },
+        "/delete": {
+            "post": {
+                "description": "This endpoint is used to destroy a key. \n",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Body in JSON",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/delete-body"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The response body for a successful response.",
+                        "schema": {
+                            "$ref": "#/definitions/message_response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request, required parameter(s) missing"
+                    },
+                    "401": {
+                        "description": "The operation is not allowed (unauthorised access, the token is invalid, etc.)."
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "register-body": {
+            "type": "object",
+            "description": "HTTP body defining the register operation for the /register endpoint.",
+            "required": [
+                "requestorID",
+                "token",
+                "timestamp",
+                "dataID",
+                "key"
+            ],
+            "properties": {
+                "requestorID": {
+                    "type": "string",
+                    "description": "Identifier of the requesting entity."
+                },
+                "token": {
+                    "type": "string",
+                    "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
+                },
+                "timestamp": {
+                    "type": "string",
+                    "description": "timestamp of registering the key."
+                },
+                "dataID": {
+                    "type": "string",
+                    "description": "Identifier of the dataset that the key relates to."
+                },
+                "key": {
+                    "type": "string",
+                    "description": "Key to be registered."
+                }
+            }
+        },
+        "read-body": {
+            "type": "object",
+            "description": "HTTP body defining the read operation for the /read endpoint",
+            "required": [
+                "requestorID",
+                "token",
+                "index"
+            ],
+            "properties": {
+                "requestorID": {
+                    "type": "string",
+                    "description": "Identifier of the requesting entity."
+                },
+                "token": {
+                    "type": "string",
+                    "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
+                },
+                "index": {
+                    "type": "integer",
+                    "description": "Identifier of a key."
+                }
+            }
+        },
+        "update-body": {
+            "type": "object",
+            "description": "HTTP body defining the register operation for the /register endpoint.",
+            "required": [
+                "requestorID",
+                "token",
+                "index",
+                "key"
+            ],
+            "properties": {
+                "requestorID": {
+                    "type": "string",
+                    "description": "Identifier of the requesting entity."
+                },
+                "token": {
+                    "type": "string",
+                    "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
+                },
+                "index": {
+                    "type": "integer",
+                    "description": "Identifier of the key."
+                },
+                "key": {
+                    "type": "string",
+                    "description": "The new key."
+                }
+            }
+        },
+        "delete-body": {
+            "type": "object",
+            "description": "HTTP body defining the delete operation for the /read endpoint",
+            "required": [
+                "requestorID",
+                "token",
+                "index"
+            ],
+            "properties": {
+                "requestorID": {
+                    "type": "string",
+                    "description": "Identifier of the requesting entity."
+                },
+                "token": {
+                    "type": "string",
+                    "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
+                },
+                "index": {
+                    "type": "integer",
+                    "description": "Identifier of the key."
+                }
+            }
+        },
+        "response": {
+            "type": "object",
+            "description": "HTTP response for a successful operation",
+            "required": [
+                "index"
+            ],
+            "properties": {
+                "index": {
+                    "type": "string",
+                    "description": "An index in JSON format signifying the index of the stored key"
+                }
+            }
+        },
+        "read-response": {
+            "type": "object",
+            "description": "HTTP response for a successful read operation",
+            "required": [
+                "timestamp",
+                "dataID",
+                "key"
+            ],
+            "properties": {
+                "timestamp": {
+                    "type": "string",
+                    "description": "The timestamp of registering the key."
+                },
+                "dataID": {
+                    "type": "string",
+                    "description": "Identifier of the dataset."
+                },
+                "key": {
+                    "type": "string",
+                    "description": "The requested public key."
+                }
+            }
+        },
+        "message_response": {
+            "type": "object",
+            "description": "HTTP response for a successful store operation",
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "A message signifying that the state information has been successfully stored."
+                }
+            }
+        }
+    }
+}

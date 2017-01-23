@@ -94,7 +94,7 @@
             "type": "object",
             "description": "HTTP body defining the store operation for the /store endpoint.",
             "required": [
-                "loggerID",
+                "requestorID",
                 "timeStamp",
                 "token",
                 "availability",
@@ -108,7 +108,7 @@
                 "elasticity"
             ],
             "properties": {
-                "loggerID": {
+                "requestorID": {
                     "type": "string",
                     "description": "Identifier of the requesting entity."
                 },
@@ -162,12 +162,12 @@
             "type": "object",
             "description": "HTTP body defining the read operation for the /read endpoint.",
             "required": [
-                "loggerID",
+                "requestorID",
                 "token",
                 "index"
             ],
             "properties": {
-                "loggerID": {
+                "requestorID": {
                     "type": "string",
                     "description": "Identifier of the requesting entity."
                 },
@@ -198,7 +198,7 @@
             "type": "object",
             "description": "HTTP response for a successful read operation.",
             "required": [
-                "loggerID",
+                "requestorID",
                 "timeStamp",
                 "token",
                 "availability",
@@ -212,7 +212,7 @@
                 "elasticity"
             ],
             "properties": {
-                "loggerID": {
+                "requestorID": {
                     "type": "string",
                     "description": "Identifier of the requesting entity."
                 },
