@@ -133,7 +133,7 @@
             "required": [
                 "loggerID",
                 "token",
-                "index"
+                "id"
             ],
             "properties": {
                 "loggerID": {
@@ -144,9 +144,9 @@
                     "type": "string",
                     "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
                 },
-                "index": {
+                "id": {
                     "type": "integer",
-                    "description": "Index of the requested data as provided during the store operation."
+                    "description": "The identifier of the requested data as provided during the store operation."
                 }
             }
         },
@@ -154,12 +154,12 @@
             "type": "object",
             "description": "HTTP response for a successful store operation.",
             "required": [
-                "index"
+                "id"
             ],
             "properties": {
-                "index": {
+                "id": {
                     "type": "integer",
-                    "description": "index of the stored values."
+                    "description": "An identifier for the stored values."
                 }
             }
         }
