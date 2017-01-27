@@ -1,0 +1,463 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "SUNFISH FAM - Deployment Manager",
+        "contact": {
+            "name": "Alastair Chetcuti",
+            "email": "alastair.b.chetcuti@gov.mt"
+        }
+    },
+    "basePath": "/api/deploymentManager/v1/",
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/manageDeployment": {
+            "post": {
+                "description": "This endpoint is used to deploy VMs\n",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Body in JSON",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/deploy"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The response body for a successful response",
+                        "schema": {
+                            "$ref": "#/definitions/deploy-response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request, required parameter(s) missing."
+                    },
+                    "401": {
+                        "description": "The operation is not allowed (unauthorised access, the token access, the token is invalid, etc.)."
+                    }
+                }
+            }
+        },
+        "/manageUndeployment": {
+            "delete": {
+                "description": "This endpoint is used to undeploy VMs         \n",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Body in JSON",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/undeploy"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The response body for a successful response",
+                        "schema": {
+                            "$ref": "#/definitions/undeploy-response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request, required parameter(s) missing."
+                    },
+                    "401": {
+                        "description": "The operation is not allowed (unauthorised access, the token access, the token is invalid, etc.)."
+                    }
+                }
+            }
+        },
+        "/manageServicePublishing": {
+            "post": {
+                "description": "This endpoint is used to Publish Services\n",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Body in JSON",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/servicePublish"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The response body for a successful response",
+                        "schema": {
+                            "$ref": "#/definitions/servicePublish-response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request, required parameter(s) missing."
+                    },
+                    "401": {
+                        "description": "The operation is not allowed (unauthorised access, the token access, the token is invalid, etc.)."
+                    }
+                }
+            }
+        },
+        "/manageServiceUnpublishing": {
+            "delete": {
+                "description": "This endpoint is used to UnPublish Services \n",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Body in JSON",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/serviceUnPublish"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The response body for a successful response",
+                        "schema": {
+                            "$ref": "#/definitions/serviceUnPublish-response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request, required parameter(s) missing."
+                    },
+                    "401": {
+                        "description": "The operation is not allowed (unauthorised access, the token access, the token is invalid, etc.)."
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "deploy": {
+            "type": "object",
+            "description": "HTTP body defining the undeployment operation",
+            "required": [
+                "requestorID",
+                "token",
+                "timestamp",
+                "vmDTO"
+            ],
+            "properties": {
+                "requestorID": {
+                    "type": "string",
+                    "description": "Identifier of the requesting entity"
+                },
+                "token": {
+                    "type": "string",
+                    "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
+                },
+                "timestamp": {
+                    "type": "string",
+                    "description": "The timestamp in the following format - 2006-01-02 15:04:05."
+                },
+                "vmDTO": {
+                    "type": "object",
+                    "description": "Virtual Machine Data Transfer Object.",
+                    "required": [
+                        "Id",
+                        "Name",
+                        "OperatingSystem",
+                        "StorageDiskType"
+                    ],
+                    "properties": {
+                        "Id": {
+                            "type": "string",
+                            "description": "Virtual Machine Id"
+                        },
+                        "Name": {
+                            "type": "string",
+                            "description": "Virtual Machine Name"
+                        },
+                        "OperatingSystem": {
+                            "type": "string",
+                            "enum": [
+                                "WindowsServer2012DataCentre",
+                                "WindowsServer2016DataCentre",
+                                "RedHatEnterpriseLinux",
+                                "UbuntuServer16v10"
+                            ],
+                            "description": "{WindowsServer2012DataCentre | WindowsServer2016DataCentre | RedHatEnterpriseLinux | UbuntuServer16v10 }, , can be one of these values."
+                        },
+                        "StorageDiskType": {
+                            "type": "string",
+                            "enum": [
+                                "HDD",
+                                "SSD"
+                            ],
+                            "description": "{HDD | SSD }, can be one of these values."
+                        }
+                    }
+                }
+            }
+        },
+        "deploy-response": {
+            "type": "object",
+            "description": "HTTP response for a successful deployment operation.",
+            "required": [
+                "requestorID",
+                "timeStamp",
+                "token",
+                "status"
+            ],
+            "properties": {
+                "requestorID": {
+                    "type": "string",
+                    "description": "Identifier of the requesting entity."
+                },
+                "timeStamp": {
+                    "type": "string",
+                    "description": "The timestamp in the following format - \"2006-01-02 15:04:05\"."
+                },
+                "token": {
+                    "type": "string",
+                    "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "SUCCESSFUL",
+                        "FAILED"
+                    ],
+                    "description": "{SUCCESSFUL|FAILED}, can be one of these values."
+                }
+            }
+        },
+        "undeploy": {
+            "type": "object",
+            "description": "HTTP body defining the undeployment operation",
+            "required": [
+                "requestorID",
+                "token",
+                "timestamp",
+                "vmId"
+            ],
+            "properties": {
+                "requestorID": {
+                    "type": "string",
+                    "description": "Identifier of the requesting entity"
+                },
+                "token": {
+                    "type": "string",
+                    "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
+                },
+                "timestamp": {
+                    "type": "string",
+                    "description": "The timestamp in the following format - 2006-01-02 15:04:05."
+                },
+                "vmId": {
+                    "type": "string",
+                    "description": "Virtual Machine Identifier."
+                }
+            }
+        },
+        "undeploy-response": {
+            "type": "object",
+            "description": "HTTP response for a successful read operation.",
+            "required": [
+                "requestorID",
+                "timeStamp",
+                "token",
+                "status"
+            ],
+            "properties": {
+                "requestorID": {
+                    "type": "string",
+                    "description": "Identifier of the requesting entity."
+                },
+                "timeStamp": {
+                    "type": "string",
+                    "description": "The timestamp in the following format - \"2006-01-02 15:04:05\"."
+                },
+                "token": {
+                    "type": "string",
+                    "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "SUCCESSFUL",
+                        "FAILED"
+                    ],
+                    "description": "{SUCCESSFUL|FAILED}, can be one of these values.        "
+                }
+            }
+        },
+        "servicePublish": {
+            "type": "object",
+            "description": "HTTP body defining the service publishing",
+            "required": [
+                "requestorID",
+                "token",
+                "timestamp",
+                "serviceDTO"
+            ],
+            "properties": {
+                "requestorID": {
+                    "type": "string",
+                    "description": "Identifier of the requesting entity"
+                },
+                "token": {
+                    "type": "string",
+                    "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
+                },
+                "timestamp": {
+                    "type": "string",
+                    "description": "The timestamp in the following format - 2006-01-02 15:04:05."
+                },
+                "serviceDTO": {
+                    "type": "object",
+                    "description": "Service Data Transfer Object.",
+                    "required": [
+                        "Id",
+                        "Name",
+                        "EndPointType"
+                    ],
+                    "properties": {
+                        "Id": {
+                            "type": "string",
+                            "description": "Virtual Machine Id"
+                        },
+                        "Name": {
+                            "type": "string",
+                            "description": "Virtual Machine Name"
+                        },
+                        "EndPointType": {
+                            "type": "string",
+                            "enum": [
+                                "HTTP",
+                                "HTTPS"
+                            ],
+                            "description": "{HTTP | HTTPS }, can be one of these values."
+                        }
+                    }
+                }
+            }
+        },
+        "servicePublish-response": {
+            "type": "object",
+            "description": "HTTP response for a successful service publishing operation.",
+            "required": [
+                "requestorID",
+                "timeStamp",
+                "token",
+                "status"
+            ],
+            "properties": {
+                "requestorID": {
+                    "type": "string",
+                    "description": "Identifier of the requesting entity."
+                },
+                "timeStamp": {
+                    "type": "string",
+                    "description": "The timestamp in the following format - \"2006-01-02 15:04:05\"."
+                },
+                "token": {
+                    "type": "string",
+                    "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "SUCCESSFUL",
+                        "FAILED"
+                    ],
+                    "description": "{SUCCESSFUL|FAILED}, can be one of these values."
+                }
+            }
+        },
+        "serviceUnPublish": {
+            "type": "object",
+            "description": "HTTP body defining the alert operation for the /triggerAlert endpoint",
+            "required": [
+                "requestorID",
+                "token",
+                "timestamp",
+                "serviceId"
+            ],
+            "properties": {
+                "requestorID": {
+                    "type": "string",
+                    "description": "Identifier of the requesting entity"
+                },
+                "token": {
+                    "type": "string",
+                    "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
+                },
+                "timestamp": {
+                    "type": "string",
+                    "description": "The timestamp in the following format - 2006-01-02 15:04:05."
+                },
+                "serviceId": {
+                    "type": "string",
+                    "description": "Service Identifier."
+                }
+            }
+        },
+        "serviceUnPublish-response": {
+            "type": "object",
+            "description": "HTTP response for a successful read operation.",
+            "required": [
+                "requestorID",
+                "timeStamp",
+                "token",
+                "status"
+            ],
+            "properties": {
+                "requestorID": {
+                    "type": "string",
+                    "description": "Identifier of the requesting entity."
+                },
+                "timeStamp": {
+                    "type": "string",
+                    "description": "The timestamp in the following format - \"2006-01-02 15:04:05\"."
+                },
+                "token": {
+                    "type": "string",
+                    "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "SUCCESSFUL",
+                        "FAILED"
+                    ],
+                    "description": "{SUCCESSFUL|FAILED}, can be one of these values.           "
+                }
+            }
+        }
+    }
+}
