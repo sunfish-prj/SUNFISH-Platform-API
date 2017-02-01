@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "version": "2.0.0",
-        "title": "SUNFISH FRM API - PVE",
+        "title": "SUNFISH FRM API - Agent",
         "contact": {
             "name": "Md Sadek Ferdous",
             "email": "S.Ferdous@soton.ac.uk"
@@ -16,9 +16,9 @@
         "application/json"
     ],
     "paths": {
-        "/pve": {
+        "/agent": {
             "post": {
-                "description": "This endpoint is used to indicate new logs have been stored in the blockchain.\n",
+                "description": "This endpoint is used to send an alert from FSA to a SMART Agent.\n",
                 "consumes": [
                     "application/json"
                 ],
@@ -58,12 +58,16 @@
             "type": "object",
             "description": "HTTP body defining the create operation for the /create endpoint.",
             "required": [
-                "loggerID",
+                "requestorID",
                 "token",
-                "id"
+                "timeStamp",
+                "alertID",
+                "alertType",
+                "alertSource",
+                "alert"
             ],
             "properties": {
-                "loggerID": {
+                "requestorID": {
                     "type": "string",
                     "description": "The identifier of the requesting entity."
                 },
@@ -71,9 +75,25 @@
                     "type": "string",
                     "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
                 },
-                "id": {
+                "timeStamp": {
                     "type": "string",
-                    "description": "An unique identifier for the new federation."
+                    "description": "The  timestamp  in  the  following  format-\"2006-01-0215:04:05\"."
+                },
+                "alertID": {
+                    "type": "string",
+                    "description": "The  identifier of the newly created alert."
+                },
+                "alertType": {
+                    "type": "string",
+                    "description": "POLICY_VIOLATION_ALERT or REQ_RESP_DISCREPANCY_ALERT or AUDIT_ALERT or SLA_ALERT - can be one of these values. POLICY_VIOLATION_ALERT, created by the PVE, corresponds to an alert regarding a policy violation. REQ_RESP_DISCREPANCY_ALERT, created by the PVE, corresponds to an alert regarding a discrepancy of an XACML request/response. AUDIT_ALERT, created by the FSA, corresponds to an alert which is generated after performing offline analysis over the access control logs. SLA_ALERT, created by FAM, corresponds to an alert which is generated after a SLA violation is detected."
+                },
+                "alertSource": {
+                    "type": "string",
+                    "description": "PVE or FSA -  can  be  one  of  these  values.  References  theentitywhich has generated the alert."
+                },
+                "alert": {
+                    "type": "string",
+                    "description": "The base64 encoded alert."
                 }
             }
         },
