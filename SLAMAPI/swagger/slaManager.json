@@ -123,6 +123,42 @@
                     }
                 }
             }
+        },
+        "/notifySLAMetric": {
+            "post": {
+                "description": "This endpoint is used to retrieve new SLA Metrics.\n",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Body in JSON",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/slaMetricNotification"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The response body for a successful response.",
+                        "schema": {
+                            "$ref": "#/definitions/slaMetricNotification-response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request, required parameter(s) missing."
+                    },
+                    "401": {
+                        "description": "The operation is not allowed (unauthorised access, the token is invalid, etc.)."
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -300,7 +336,7 @@
         },
         "complianceReport": {
             "type": "object",
-            "description": "HTTP body defining the read operation for the /read endpoint.",
+            "description": "HTTP body defining the complianceReport generation operation for the /generateComplianceReport endpoint.",
             "required": [
                 "requestorID",
                 "token",
@@ -328,11 +364,66 @@
         },
         "complianceReport-response": {
             "type": "object",
-            "description": "HTTP response for a successful read operation.",
+            "description": "HTTP response for a successful complianceReport generation operation.",
             "properties": {
                 "Name": {
                     "type": "string",
                     "description": "SLAM Report Schema"
+                }
+            }
+        },
+        "slaMetricNotification": {
+            "type": "object",
+            "description": "HTTP body defining the slaMetric retrieval operation for the /notifySLAMetric endpoint.",
+            "required": [
+                "requestorID",
+                "token",
+                "timestamp",
+                "metric"
+            ],
+            "properties": {
+                "requestorID": {
+                    "type": "string",
+                    "description": "Identifier of the requesting entity."
+                },
+                "token": {
+                    "type": "string",
+                    "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
+                },
+                "timestamp": {
+                    "type": "string",
+                    "description": "The timestamp in the following format - \"2006-01-02 15:04:05\"."
+                },
+                "metric": {
+                    "type": "string",
+                    "description": "Base64 encoded metric"
+                }
+            }
+        },
+        "slaMetricNotification-response": {
+            "type": "object",
+            "description": "HTTP response for a successful slaMetric notification generation",
+            "required": [
+                "requestorID",
+                "token",
+                "status"
+            ],
+            "properties": {
+                "requestorID": {
+                    "type": "string",
+                    "description": "Identifier of the requesting entity."
+                },
+                "token": {
+                    "type": "string",
+                    "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "SUCCESSFUL",
+                        "FAILED"
+                    ],
+                    "description": "{SUCCESSFUL|FAILED}, can be one of these values."
                 }
             }
         }
