@@ -48,6 +48,9 @@
                     },
                     "401": {
                         "description": "The operation is not allowed (unauthorised access, the token is invalid, etc.)."
+                    },
+                    "409": {
+                        "description": "The operation is not allowed as the policy already exists."
                     }
                 }
             }
@@ -84,6 +87,9 @@
                     },
                     "401": {
                         "description": "The operation is not allowed (unauthorised access, the token is invalid, etc.)."
+                    },
+                    "404": {
+                        "description": "The requested policy is not found."
                     }
                 }
             }
@@ -156,6 +162,9 @@
                     },
                     "401": {
                         "description": "The operation is not allowed (unauthorised access, the token is invalid, etc.)."
+                    },
+                    "404": {
+                        "description": "The respective policy is not found.    "
                     }
                 }
             }
@@ -192,6 +201,9 @@
                     },
                     "401": {
                         "description": "The operation is not allowed (unauthorised access, the token is invalid, etc.)."
+                    },
+                    "404": {
+                        "description": "The respective policy is not found.    "
                     }
                 }
             }
@@ -245,8 +257,7 @@
             "required": [
                 "requestorID",
                 "token",
-                "id",
-                "rootPolicy"
+                "id"
             ],
             "properties": {
                 "requestorID": {
@@ -260,10 +271,6 @@
                 "id": {
                     "type": "string",
                     "description": "The identifer for the policy."
-                },
-                "rootPolicy": {
-                    "type": "boolean",
-                    "description": "Defines if a root policy or a re-usable policy should be returned."
                 }
             }
         },
