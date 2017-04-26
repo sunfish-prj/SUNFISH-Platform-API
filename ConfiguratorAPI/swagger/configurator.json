@@ -15,6 +15,362 @@
         "https"
     ],
     "paths": {
+        "/confVMS": {
+            "get": {
+                "summary": "Configure VMs",
+                "description": "Allows to Get, Post or Delete the set of VMs that has to be configured",
+                "operationId": "getconfVMS",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "kindVM",
+                        "description": "Kind of confVM to filter by",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "containerized",
+                                "non-containerized"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/confVM"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid kindVM value"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update a set of VMs that has to be configured",
+                "description": "Allows to Edit the details of the confVMs",
+                "operationId": "updateconfVM",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "listconfVMs",
+                        "description": "Updated type of the confVM",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/confVM"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Deletes a set of confVM",
+                "description": "",
+                "operationId": "deleteconfVM",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "listconfVM",
+                        "description": "VM id to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/confVM"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/confVMS/{idVM}": {
+            "get": {
+                "summary": "Retrieve single VMs",
+                "description": "Allows to Get the details of a specific confVM",
+                "operationId": "confsingleVMS",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "idVM",
+                        "description": "ID of VM that needs to be fetched",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/confVM"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid vmID value"
+                    },
+                    "404": {
+                        "description": "VM not found"
+                    }
+                }
+            }
+        },
+        "/confNodes": {
+            "get": {
+                "summary": "Retrieve Nodes",
+                "description": "Allows  to  Get,  Post  or  Delete  the  set  of  Nodes  that  has  to  be  created  (on previously configured VMs)",
+                "operationId": "getconfNodes",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/confNode"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a Node",
+                "operationId": "createconfNode",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Created node object",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/confNode"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update the details of a Node",
+                "description": "Allows to Edit the details of the created Node",
+                "operationId": "updateconfNode",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "listconfNodes",
+                        "description": "Updated type of the Node",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/confNode"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Removes  Nodes",
+                "description": "",
+                "operationId": "deleteConfNode",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "listconfNodes",
+                        "description": "Nodes to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/confNode"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/confNode"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid Node value"
+                    },
+                    "404": {
+                        "description": "Node not found"
+                    }
+                }
+            }
+        },
+        "/confNodes/{nodeID}": {
+            "get": {
+                "summary": "Find Node by ID",
+                "description": "Allows to Get the details for a specific Node",
+                "operationId": "confsingleNode",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "nodeID",
+                        "description": "ID of Node that needs to be fetched",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/confNode"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid vmID value"
+                    },
+                    "404": {
+                        "description": "Node not found"
+                    }
+                }
+            }
+        },
+        "/confServices": {
+            "get": {
+                "summary": "Retrieve Services",
+                "description": "Allows to Get information on the set of containerized Services currently deployed by the Configurator.",
+                "operationId": "getconfServices",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/confService"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a Service",
+                "operationId": "createconfService",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Created service object",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/confService"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Un-deploy a set of Services from the cluster",
+                "description": "",
+                "operationId": "deleteconfService",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "listofservices",
+                        "description": "Service id to delete",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/confService"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Node value"
+                    },
+                    "404": {
+                        "description": "Node not found"
+                    }
+                }
+            }
+        },
         "/vms": {
             "get": {
                 "summary": "Retrieve VMS",
@@ -56,98 +412,6 @@
                 }
             }
         },
-        "/vms/{vmID}": {
-            "get": {
-                "summary": "Find VM by ID",
-                "description": "Allows to Get the details of the created VMs",
-                "operationId": "getVMById",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "vmID",
-                        "description": "ID of VM that needs to be fetched",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "$ref": "#/definitions/VM"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid ID supplied"
-                    },
-                    "404": {
-                        "description": "VM not found"
-                    }
-                }
-            },
-            "put": {
-                "summary": "Update the details of a VM",
-                "description": "Allows to Edit the details of the created VMs",
-                "operationId": "updateVM",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "vmID",
-                        "description": "ID of VM that needs to be updated",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "Updated type of the VM",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/VM"
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "405": {
-                        "description": "Invalid input"
-                    }
-                }
-            },
-            "delete": {
-                "summary": "Deletes a VM",
-                "description": "",
-                "operationId": "deleteVM",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "vmID",
-                        "description": "VM id to delete",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "responses": {
-                    "400": {
-                        "description": "Invalid VM value"
-                    },
-                    "404": {
-                        "description": "Order not found"
-                    }
-                }
-            }
-        },
         "/nodes": {
             "get": {
                 "summary": "Retrieve Nodes",
@@ -165,121 +429,6 @@
                                 "$ref": "#/definitions/Node"
                             }
                         }
-                    }
-                }
-            },
-            "post": {
-                "summary": "Create a Node",
-                "operationId": "createNode",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "Created node object",
-                        "required": false,
-                        "schema": {
-                            "$ref": "#/definitions/Node"
-                        }
-                    }
-                ],
-                "responses": {
-                    "default": {
-                        "description": "successful operation"
-                    }
-                }
-            }
-        },
-        "/nodes/{nodeID}": {
-            "get": {
-                "summary": "Find Node by ID",
-                "description": "Allows to Get the details for a specific Node",
-                "operationId": "getNodeById",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "nodeID",
-                        "description": "ID of Node that needs to be fetched",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "$ref": "#/definitions/Node"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid ID supplied"
-                    },
-                    "404": {
-                        "description": "Node not found"
-                    }
-                }
-            },
-            "put": {
-                "summary": "Update the details of a Node",
-                "description": "Allows to Edit the details of the created Node",
-                "operationId": "updateNode",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "nodeID",
-                        "description": "ID of Node that needs to be updated",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "Updated type of the Node",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Node"
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "405": {
-                        "description": "Invalid input"
-                    }
-                }
-            },
-            "delete": {
-                "summary": "Removes a Node",
-                "description": "",
-                "operationId": "deleteNode",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "nodeID",
-                        "description": "Node id to delete",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "responses": {
-                    "400": {
-                        "description": "Invalid Node value"
-                    },
-                    "404": {
-                        "description": "Node not found"
                     }
                 }
             }
@@ -303,10 +452,31 @@
                         }
                     }
                 }
+            }
+        },
+        "/configs": {
+            "get": {
+                "summary": "Retrieve Nodes",
+                "description": "Allows to Get, Post or Delete configuration data on the Configuration Repository",
+                "operationId": "getConfigData",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Config"
+                            }
+                        }
+                    }
+                }
             },
             "post": {
-                "summary": "Create a Service",
-                "operationId": "createService",
+                "summary": "Create a Config",
+                "operationId": "createConfig",
                 "produces": [
                     "application/json"
                 ],
@@ -314,10 +484,10 @@
                     {
                         "in": "body",
                         "name": "body",
-                        "description": "Created service object",
+                        "description": "Created config object",
                         "required": false,
                         "schema": {
-                            "$ref": "#/definitions/Service"
+                            "$ref": "#/definitions/Config"
                         }
                     }
                 ],
@@ -328,19 +498,19 @@
                 }
             }
         },
-        "/services/{serviceID}": {
+        "/confids/{idConfig}": {
             "get": {
-                "summary": "Find Service by ID",
-                "description": "Allows to Get the details for a specific Service",
-                "operationId": "getServiceById",
+                "summary": "Find Config by ID",
+                "description": "Allows to Get the details for a specific Node",
+                "operationId": "getConfigById",
                 "produces": [
                     "application/json"
                 ],
                 "parameters": [
                     {
                         "in": "path",
-                        "name": "serviceID",
-                        "description": "ID of Service that needs to be fetched",
+                        "name": "idConfig",
+                        "description": "ID of Config that needs to be fetched",
                         "required": true,
                         "type": "integer"
                     }
@@ -349,98 +519,148 @@
                     "200": {
                         "description": "successful operation",
                         "schema": {
-                            "$ref": "#/definitions/Service"
+                            "$ref": "#/definitions/Config"
                         }
                     },
                     "400": {
                         "description": "Invalid ID supplied"
                     },
                     "404": {
-                        "description": "Service not found"
+                        "description": "Config not found"
                     }
                 }
             },
             "put": {
-                "summary": "Update the details of a Service",
-                "description": "Allows to Edit the details of the created Service",
-                "operationId": "updateService",
+                "summary": "Update the details of a Config",
+                "description": "Allows to Edit the details of the created Config",
+                "operationId": "updateConfig",
                 "produces": [
                     "application/json"
                 ],
                 "parameters": [
                     {
                         "in": "path",
-                        "name": "serviceID",
-                        "description": "ID of Service that needs to be updated",
+                        "name": "idConfig",
+                        "description": "ID of Config that needs to be updated",
                         "required": true,
                         "type": "integer"
                     },
                     {
                         "in": "body",
                         "name": "body",
-                        "description": "Updated type of the Service",
+                        "description": "Updated type of the Config",
                         "required": true,
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/Service"
+                                "$ref": "#/definitions/Config"
                             }
                         }
                     }
                 ],
                 "responses": {
-                    "405": {
+                    "200": {
+                        "description": "Successful update"
+                    },
+                    "400": {
                         "description": "Invalid input"
                     }
                 }
             },
             "delete": {
-                "summary": "Un-deplay a Service from the cluster",
+                "summary": "Removes a Config",
                 "description": "",
-                "operationId": "deleteService",
+                "operationId": "deleteConfig",
                 "produces": [
                     "application/json"
                 ],
                 "parameters": [
                     {
                         "in": "path",
-                        "name": "serviceID",
-                        "description": "Service id to delete",
+                        "name": "idConfig",
+                        "description": "Config id to delete",
                         "required": true,
                         "type": "integer"
                     }
                 ],
                 "responses": {
                     "400": {
-                        "description": "Invalid Node value"
+                        "description": "Invalid Config value"
                     },
                     "404": {
-                        "description": "Node not found"
+                        "description": "Config not found"
                     }
                 }
             }
         }
     },
     "definitions": {
+        "confVM": {
+            "type": "object",
+            "required": [
+                "idVM",
+                "kindVM",
+                "idConf"
+            ],
+            "properties": {
+                "idVM": {
+                    "type": "integer",
+                    "description": "the identifier of a confVM (“external identifier”)"
+                },
+                "kindVM": {
+                    "type": "string",
+                    "description": "Specifies the type of confVM"
+                },
+                "idConf": {
+                    "type": "string",
+                    "description": "is the identifier of the configuration (stored on the Configuration"
+                }
+            }
+        },
         "VM": {
             "type": "object",
             "required": [
+                "idVM",
+                "kindVM",
+                "idConf"
+            ],
+            "properties": {
+                "idVM": {
+                    "type": "integer",
+                    "description": "the identifier of a VM (“external identifier”)"
+                },
+                "kindVM": {
+                    "type": "string",
+                    "description": "Specifies the type of VM"
+                },
+                "idConf": {
+                    "type": "string",
+                    "description": "is the identifier of the configuration (stored on the Configuration"
+                }
+            }
+        },
+        "confNode": {
+            "type": "object",
+            "required": [
                 "vmID",
-                "vmType",
-                "confID"
+                "nodeID",
+                "label"
             ],
             "properties": {
                 "vmID": {
                     "type": "integer",
-                    "description": "the identifier of a VM (“external identifier”)"
+                    "description": "refers to a VM (“external ID”) previously configured as \"containerized\""
                 },
-                "vmType": {
-                    "type": "string",
-                    "description": "Specifies the type of VM"
+                "nodeID": {
+                    "type": "integer",
+                    "description": "the identifier assigned by the Configurator to the Node"
                 },
-                "confID": {
-                    "type": "string",
-                    "description": "is the identifier of the configuration (stored on the Configuration"
+                "label": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "a list of labels associated to the Node"
                 }
             }
         },
@@ -469,6 +689,23 @@
                 }
             }
         },
+        "confService": {
+            "type": "object",
+            "required": [
+                "serviceID",
+                "nodeID"
+            ],
+            "properties": {
+                "serviceID": {
+                    "type": "integer",
+                    "description": "An identifier assigned from the Configurator to an instance of Service currently deployed"
+                },
+                "nodeID": {
+                    "type": "integer",
+                    "description": "Associated Node"
+                }
+            }
+        },
         "Service": {
             "type": "object",
             "required": [
@@ -483,6 +720,23 @@
                 "nodeID": {
                     "type": "integer",
                     "description": "Associated Node"
+                }
+            }
+        },
+        "Config": {
+            "type": "object",
+            "required": [
+                "idConfig",
+                "config"
+            ],
+            "properties": {
+                "idConfig": {
+                    "type": "integer",
+                    "description": "The identifier of a configuration"
+                },
+                "config": {
+                    "type": "integer",
+                    "description": "A configuration"
                 }
             }
         }
