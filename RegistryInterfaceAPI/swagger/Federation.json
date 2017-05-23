@@ -189,7 +189,7 @@
                 "id": {
                     "type": "string",
                     "description": "The id of the federation in which to add the new member."
-                },
+                }
             }
         },
         "remove-body": {
@@ -199,7 +199,8 @@
                 "requestorID",
                 "token",
                 "timeStamp",
-                "newMember"
+                "newMember",
+		"id"
             ],
             "properties": {
                 "requestorID": {
@@ -217,6 +218,10 @@
                 "newMember": {
                     "type": "string",
                     "description": "The name for the member."
+                },
+                "id": {
+                    "type": "string",
+                    "description": "The id of the federation from where the new member will be removed."
                 }
             }
         },
