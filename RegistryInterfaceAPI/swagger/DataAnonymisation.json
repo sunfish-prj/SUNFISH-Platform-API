@@ -155,7 +155,7 @@
             "type": "object",
             "description": "HTTP response for a successful register operation",
             "required": [
-                "index"
+                "message"
             ],
             "properties": {
                 "message": {
