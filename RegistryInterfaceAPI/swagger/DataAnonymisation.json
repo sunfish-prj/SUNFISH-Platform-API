@@ -158,9 +158,9 @@
                 "index"
             ],
             "properties": {
-                "index": {
-                    "type": "integer",
-                    "description": "The index of the data sharing event."
+                "message": {
+                    "type": "string",
+                    "description": "a message in JSON format signifying that the data has been registered."
                 }
             }
         },
