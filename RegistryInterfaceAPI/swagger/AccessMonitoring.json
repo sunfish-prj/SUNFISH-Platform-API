@@ -94,6 +94,7 @@
             "type": "object",
             "description": "HTTP body defining the store operation for the /store endpoint and the read operation for the /read endpoint.",
             "required": [
+                "ID",
                 "loggerID",
                 "timeStamp",
                 "token",
@@ -101,6 +102,10 @@
                 "data"
             ],
             "properties": {
+                "ID": {
+                    "type": "string",
+                    "description": "Identifier of a particular protocol flow which is used to bind different access logs from different entities."
+                },
                 "loggerID": {
                     "type": "string",
                     "description": "Identifier of the requesting entity."
