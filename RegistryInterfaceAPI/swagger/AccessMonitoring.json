@@ -150,7 +150,7 @@
                     "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
                 },
                 "id": {
-                    "type": "integer",
+                    "type": "string",
                     "description": "The identifier of the requested data as provided during the store operation."
                 }
             }
@@ -163,7 +163,7 @@
             ],
             "properties": {
                 "id": {
-                    "type": "integer",
+                    "type": "string",
                     "description": "An identifier for the stored values."
                 }
             }
