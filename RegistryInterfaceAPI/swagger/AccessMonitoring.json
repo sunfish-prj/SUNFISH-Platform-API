@@ -76,7 +76,7 @@
                     "200": {
                         "description": "The response body for a successful response.",
                         "schema": {
-                            "$ref": "#/definitions/store-read-body"
+                            "$ref": "#/definitions/read-response"
                         }
                     },
                     "400": {
@@ -94,7 +94,7 @@
             "type": "object",
             "description": "HTTP body defining the store operation for the /store endpoint and the read operation for the /read endpoint.",
             "required": [
-                "ID",
+                "id",
                 "loggerID",
                 "timeStamp",
                 "token",
@@ -102,7 +102,7 @@
                 "data"
             ],
             "properties": {
-                "ID": {
+                "id": {
                     "type": "string",
                     "description": "Identifier of a particular protocol flow which is used to bind different access logs from different entities."
                 },
@@ -165,6 +165,59 @@
                 "id": {
                     "type": "integer",
                     "description": "An identifier for the stored values."
+                }
+            }
+        },
+        "read-response": {
+            "type": "object",
+            "description": "HTTP response containing the list of policies for the service.",
+            "required": [
+                "id",
+                "list"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Identifier of a particular protocol flow which is used to bind different access logs from different entities."
+                },
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "loggerID": {
+                                "type": "string",
+                                "description": "Identifier of the requesting entity."
+                            },
+                            "timeStamp": {
+                                "type": "string",
+                                "description": "The timestamp in the following format - \"2006-01-02 15:04:05\"."
+                            },
+                            "token": {
+                                "type": "string",
+                                "description": "A crypto token to validate if the entity is allowed to perform the requested operation."
+                            },
+                            "dataType": {
+                                "type": "string",
+                                "enum": [
+                                    "REQUEST",
+                                    "RESPONSE"
+                                ],
+                                "description": "REQUEST/RESPONE, can be one of these values.'"
+                            },
+                            "data": {
+                                "type": "string",
+                                "description": "Base64 encoded XACML request/response."
+                            }
+                        },
+                        "required": [
+                            "loggerID",
+                            "timeStamp",
+                            "token",
+                            "dataType",
+                            "data"
+                        ]
+                    }
                 }
             }
         }
