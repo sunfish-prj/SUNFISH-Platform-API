@@ -1,0 +1,177 @@
+swagger: '2.0'
+info:
+  version: 2.0.0
+  title: SUNFISH Blockchain API - Access control monitoring
+  contact:
+    name: Md Sadek Ferdous
+    email: S.Ferdous@soton.ac.uk
+basePath: /api/monitoring
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /store:
+    post:
+      description: |
+        This endpoint is used to store relevant monitoring data.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: Body in JSON
+          required: true
+          schema:
+            $ref: '#/definitions/store-read-body'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/store-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing.'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
+  /read:
+    post:
+      description: |
+        This endpoint is used to read the relevant monitoring data.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: Body in JSON
+          required: true
+          schema:
+            $ref: '#/definitions/read-body'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/read-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing.'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
+definitions:
+  store-read-body:
+    type: object
+    description: >-
+      HTTP body defining the store operation for the /store endpoint and the
+      read operation for the /read endpoint.
+    required:
+      - id
+      - loggerID
+      - timeStamp
+      - token
+      - dataType
+      - data
+    properties:
+      id:
+        type: string
+        description: >-
+          Identifier of a particular protocol flow which is used to bind
+          different access logs from different entities.
+      loggerID:
+        type: string
+        description: Identifier of the requesting entity.
+      timeStamp:
+        type: string
+        description: 'The timestamp in the following format - "2006-01-02 15:04:05".'
+      token:
+        type: string
+        description: >-
+          A crypto token to validate if the entity is allowed to perform the
+          requested operation.
+      dataType:
+        type: string
+        enum:
+          - REQUEST
+          - RESPONSE
+        description: 'REQUEST/RESPONE, can be one of these values.'''
+      data:
+        type: string
+        description: Base64 encoded XACML request/response.
+  read-body:
+    type: object
+    description: HTTP body defining the read operation for the /read endpoin.
+    required:
+      - loggerID
+      - token
+      - id
+    properties:
+      loggerID:
+        type: string
+        description: Identifier of the requesting entity.
+      token:
+        type: string
+        description: >-
+          A crypto token to validate if the entity is allowed to perform the
+          requested operation.
+      id:
+        type: string
+        description: >-
+          The identifier of the requested data as provided during the store
+          operation.
+  store-response:
+    type: object
+    description: HTTP response for a successful store operation.
+    required:
+      - id
+    properties:
+      id:
+        type: string
+        description: An identifier for the stored values.
+  read-response:
+    type: object
+    description: HTTP response containing the list of policies for the service.
+    required:
+      - id
+      - list
+    properties:
+      id:
+        type: string
+        description: >-
+          Identifier of a particular protocol flow which is used to bind
+          different access logs from different entities.
+      list:
+        type: array
+        items:
+          type: object
+          properties:
+            loggerID:
+              type: string
+              description: Identifier of the requesting entity.
+            timeStamp:
+              type: string
+              description: 'The timestamp in the following format - "2006-01-02 15:04:05".'
+            token:
+              type: string
+              description: >-
+                A crypto token to validate if the entity is allowed to perform
+                the requested operation.
+            dataType:
+              type: string
+              enum:
+                - REQUEST
+                - RESPONSE
+              description: 'REQUEST/RESPONE, can be one of these values.'''
+            data:
+              type: string
+              description: Base64 encoded XACML request/response.
+          required:
+            - loggerID
+            - timeStamp
+            - token
+            - dataType
+            - data
