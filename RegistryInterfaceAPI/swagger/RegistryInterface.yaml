@@ -6,7 +6,7 @@ info:
     name: Andrea Margheri
     email: a.margheri@soton.ac.uk
     
-basePath: /ri/
+basePath: /ri
 
 consumes: 
     - application/json
