@@ -1,0 +1,862 @@
+swagger: '2.0'
+info:
+  version: 2.1.0
+  title: SUNFISH Registry Interface
+  contact:
+    name: Andrea Margheri
+    email: a.margheri@soton.ac.uk
+    
+basePath: /ri
+
+consumes: 
+    - application/json
+produces:
+    - application/json
+
+tags:
+  - name: policy
+  - name: dm 
+  - name: anony
+  - name: contract
+  - name: alert
+  - name: monitoring 
+  - name: sla 
+  - name: state
+paths:
+#Policy management paths 
+  /policy/store:
+    post:
+      description: |
+        Storing a new policy
+      tags: 
+        - policy
+      parameters:
+        - name: policySpec
+          in: body
+          description: Body in JSON
+          required: true
+          schema:
+            $ref: '#/definitions/policy-request-body'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/policy-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing.'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
+        '409':
+          description: The operation is not allowed as the policy already exists.
+          
+  /policy/read:
+    post:
+      description: |
+        Retrieving a policy by its id
+      tags: 
+        - policy
+      parameters:
+        - name: policyId
+          in: body
+          description: Body in JSON
+          required: true
+          schema:
+            $ref: '#/definitions/query-request'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/policy-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
+        '404':
+          description: The requested policy is not found.
+          
+  /policy/polService:
+    post:
+      description: >
+        Retrieving policies associated to a service
+      tags: 
+        - policy
+      parameters:
+        - name: serviceId 
+          in: body
+          description: Body in JSON
+          required: true
+          schema:
+            $ref: '#/definitions/policy-ofservice-body'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/policy-ofservice-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
+            
+  /policy/update:
+    post:
+      description: |
+       Updating a policy by its id.
+      tags: 
+        - policy
+      parameters:
+        - name: policySpec
+          in: body
+          description: Body in JSON
+          required: true
+          schema:
+            $ref: '#/definitions/policy-request-body'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/ack-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing.'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
+        '404':
+          description: 'The respective policy is not found.'
+          
+  /policy/delete:
+    post:
+      description: |
+        Deleting a policy by its id
+      tags: 
+        - policy
+      parameters:
+        - name: policyId
+          in: body
+          description: Body in JSON
+          required: true
+          schema:
+            $ref: '#/definitions/query-request'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/ack-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
+        '404':
+          description: 'The respective policy is not found.'
+
+#Data masking paths 
+  /dm/store:
+    post:
+      tags:
+        - dm
+      description: |
+        Storing encryption/tokenization key
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: Body in JSON
+          required: true
+          schema:
+            $ref: '#/definitions/dm-store-body'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/ack-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing.'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
+  /dm/read:
+    post:
+      description: |
+        Retrieving a stored key
+      tags:
+        - dm
+      parameters:
+        - name: body
+          in: body
+          description: Body in JSON
+          required: true
+          schema:
+            $ref: '#/definitions/query-request'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/dm-read-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
+  /dm/update:
+    post:
+      description: |
+        Update a stored key
+      tags:
+        - dm
+      parameters:
+        - name: body
+          in: body
+          description: Body in JSON
+          required: true
+          schema:
+            $ref: '#/definitions/dm-update-body'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/ack-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing.'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
+  /dm/delete:
+    post:
+      description: |
+        Delete a stored key
+      tags:
+        - dm
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/dm-delete-body'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/ack-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
+
+#anonymisation service paths
+  /anonymisation/register:
+    post:
+      description: |
+        This endpoint is used to register a data-sharing event.
+      tags:
+        - anonymisation
+      parameters:
+        - name: body
+          in: body
+          description: Body in JSON
+          required: true
+          schema:
+            $ref: '#/definitions/anony-register-body'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/anony-register-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing.'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
+
+
+  /anonymisation/statistics:
+    post:
+      description: >
+        This endpoint is used to query the anonymised statistical result given 
+        the DataId and requested budget.
+      tags:
+        - anonymisation
+      parameters:
+        - name: body
+          in: body
+          description: Body in JSON
+          required: true
+          schema:
+            $ref: '#/definitions/anony-query-body'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/anony-query-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.)
+
+#SLA Metrics
+  /SLAMetrics/store:
+    post:
+      description: |
+        This endpoint is used to store performance metrics.
+      tags:
+        - sla
+      parameters:
+        - name: body
+          in: body
+          description: Body in JSON
+          required: true
+          schema:
+            $ref: '#/definitions/sla-store-body'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/sla-store-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing.'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
+  
+  /SLAMetrics/read:
+    post:
+      description: |
+        This endpoint is used to retrieve the stored metrics using the index.
+      tags:
+        - sla
+      parameters:
+        - name: body
+          in: body
+          description: Body in JSON
+          required: true
+          schema:
+            $ref: '#/definitions/sla-read-body'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/sla-read-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing.'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
+
+definitions:
+#Definitions for Policy Management
+  policy-request-body:
+    type: object
+    description: HTTP body defining the input for the store operation of policy
+    required:
+      - requestorID
+      - token
+      - policy
+      - expirationTime
+      - id
+    properties:
+      requestorID:
+        type: string
+        description: Identifier of the requesting entity.
+      token:
+        type: string
+        description: >-
+          A crypto token to validate if the entity is allowed to perform the
+          requested operation.
+      policy:
+        type: string
+        description: Base64-encoded policy data.
+      expirationTime:
+        type: string
+        description: >-
+          Specifies the expiration time of the policy in milli-seconds starting
+          from midnight, January 1, 1970 UTC. After this time the policy set
+          must not be used.
+      id:
+        type: string
+        description: The identifer for the policy.
+      serviceID:
+        type: string
+        description: The identifier of the service this policy applies to.
+      policyType:
+        type: string
+        description: The type of the policy.
+        
+  policy-ofservice-body:
+    type: object
+    description: HTTP body defining the read operation for the /read endpoint
+    required:
+      - requestorID
+      - token
+      - serviceID
+      - policyType
+    properties:
+      requestorID:
+        type: string
+        description: Identifier of the requesting entity.
+      token:
+        type: string
+        description: >-
+          A crypto token to validate if the entity is allowed to perform the
+          requested operation.
+      serviceID:
+        type: string
+        description: >-
+          Specifies the service identifier to be used to retrieve the set of
+          policies belonging to that identifier.
+      policyType:
+        type: string
+        description: The type of the policy.    
+        
+  policy-response:
+    type: object
+    description: HTTP response for a successful read operation
+    required:
+      - policy
+      - expirationTime
+    properties:
+      policy:
+        type: string
+        description: BASE64-enocded data of the requested policy.
+      expirationTime:
+        type: string
+        description: >-
+          Specifies the expiration time of the policy set in milliseconds
+          starting from midnight, January 1, 1970 UTC. After this time the
+          policy set must not be used.
+          
+  policy-ofservice-response:
+    type: object
+    description: HTTP response containing the list of policies for the service.
+    required:
+      - list
+    properties:
+      list:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Specifies the id of the policy.
+            policy:
+              type: string
+              description: BASE64-enocded data of the policy.
+          required:
+            - id
+            - policy
+
+#Definitions for Data Masking
+  dm-store-body:
+    type: object
+    required:
+      - requestorID
+      - token
+      - timestamp
+      - dataID
+      - key
+    properties:
+      requestorID:
+        type: string
+        description: Identifier of the requesting entity.
+      token:
+        type: string
+        description: >-
+          A crypto token to validate if the entity is allowed to perform the
+          requested operation.
+      timestamp:
+        type: string
+        description: timestamp of registering the key.
+      dataID:
+        type: string
+        description: Identifier of the dataset that the key relates to.
+      key:
+        type: string
+        description: Key to be registered.
+  dm-update-body:
+    type: object
+    required:
+      - requestorID
+      - token
+      - index
+      - key
+    properties:
+      requestorID:
+        type: string
+        description: Identifier of the requesting entity.
+      token:
+        type: string
+        description: >-
+          A crypto token to validate if the entity is allowed to perform the
+          requested operation.
+      index:
+        type: integer
+        description: Identifier of the key.
+      key:
+        type: string
+        description: The new key.
+  dm-delete-body:
+    type: object
+    required:
+      - requestorID
+      - token
+      - index
+    properties:
+      requestorID:
+        type: string
+        description: Identifier of the requesting entity.
+      token:
+        type: string
+        description: >-
+          A crypto token to validate if the entity is allowed to perform the
+          requested operation.
+      index:
+        type: integer
+        description: Identifier of the key.
+  dm-read-response:
+    type: object
+    description: HTTP response for a successful read operation
+    required:
+      - timestamp
+      - dataID
+      - key
+    properties:
+      timestamp:
+        type: string
+        description: The timestamp of registering the key.
+      dataID:
+        type: string
+        description: Identifier of the dataset.
+      key:
+        type: string
+        description: The requested public key.
+
+#Definition for anonymisation service
+  anony-register-body:
+    type: object
+    description: HTTP body defining the register operation for the /anonymisation/register endpoint.
+    required:
+      - requestorID
+      - token
+      - data_provider
+      - data_consumer
+      - timeStamp
+      - dataID
+    properties:
+      requestorID:
+        type: string
+        description: Identifier of the requesting entity.
+      token:
+        type: string
+        description: >-
+          A crypto token to validate if the entity is allowed to perform the
+          requested operation.
+      data_provider:
+        type: string
+        description: The name of the data provider who shares a dataset.
+      data_consumer:
+        type: string
+        description: The name of the data consumer who receives a dataset.
+      timeStamp:
+        type: string
+        description: 'The timestamp in the following format - "2006-01-02 15:04:05"'
+      dataID:
+        type: string
+        description: Identifier of the shared dataset.
+ 
+  anony-register-response:
+    type: object
+    description: HTTP response for a successful register operation
+    required:
+      - message
+    properties:
+      message:
+        type: string
+        description: a message in JSON format signifying that the data has been registered.
+
+  anony-query-body:
+    type: object
+    description: HTTP body defining the query operation for the /anonymisation/statistics endpoint
+    required:
+      - requestorID
+      - token
+      - data_consumer
+      - dataID
+      - function_type
+      - request_budget
+    properties:
+      requestorID:
+        type: string
+        description: Identifier of the requesting entity.
+      token:
+        type: string
+        description: >-
+          A crypto token to validate if the entity is allowed to perform the
+          requested operation.
+      data_consumer:
+        type: string
+        description: The name of the data consumer who receives a dataset.
+      dataID:
+        type: string
+        description: The unique ID of a dataset
+      function_type:
+        type: string
+        description: The queried function type
+      request_budget:
+        type: number
+        description: The requested budget of differential privacy
+  
+  
+  anony-query-response:
+    type: object
+    description: HTTP response for a successful read operation
+    required:
+      - data_provider
+      - data_consumer
+      - timeStamp
+      - dataID
+      - anonymised_result
+    properties:
+      data_provider:
+        type: string
+        description: The name of the data provider who shares a dataset.
+      data_consumer:
+        type: string
+        description: The name of the data consumer who receives a dataset.
+      timeStamp:
+        type: string
+        description: 'The timestamp in the following format - "2006-01-02 15:04:05"'
+      dataID:
+        type: string
+        description: Identifier of the shared dataset.
+      anonymised_result:
+        type: number
+        description: The anonymised result of the query function
+
+#Definition of SLAMetrics
+  sla-store-body:
+    type: object
+    description: HTTP body defining the store operation for the /store endpoint.
+    required:
+      - requestorID
+      - timeStamp
+      - token
+      - availability
+      - responseTime
+      - CPUPower
+      - diskSpace
+      - memorySize
+      - bandwidth
+      - throughput
+      - connections
+      - elasticity
+    properties:
+      requestorID:
+        type: string
+        description: Identifier of the requesting entity.
+      timeStamp:
+        type: string
+        description: 'The timestamp in the following format - "2006-01-02 15:04:05".'
+      token:
+        type: string
+        description: >-
+          A crypto token to validate if the entity is allowed to perform the
+          requested operation.
+      availability:
+        type: string
+        description: >-
+          The percentage availability of the cloud member resources for a
+          billing cycle.
+      responseTime:
+        type: string
+        description: >-
+          Exact time (seconds) between stimulus to the cloud service and
+          corresponding service's response. The percentage a service manages to
+          respond within the defined response time limit for a billing cycle.
+      CPUPower:
+        type: string
+        description: >-
+          Max. no. of processing power (Hertz) provided by CSP to customer to
+          process his data.
+      diskSpace:
+        type: string
+        description: >-
+          Max. no. of available space (PetaBytes) provided by CSP to customer to
+          store his data.
+      memorySize:
+        type: string
+        description: >-
+          Max. no. of information (GigaBytes) the cloud service is able to hold
+          for the customer to read/write his data.
+      bandwidth:
+        type: string
+        description: >-
+          Amount of outbound data transfers (GigaByte/month), customers will be
+          given the ability to customize the cloud services, and corresponding
+          SLAs, according to the demand and usage of the services.
+      throughput:
+        type: string
+        description: >-
+          Min. no. of requests that can be processed by the cloud service in a
+          stated time period (GigaBytes/sec).
+      connections:
+        type: string
+        description: Max. no. of simultaneous connections.
+      elasticity:
+        type: string
+        description: >-
+          Quickly de/provision resources, dynamically adjust the amount of
+          resources allocated to an instance of a service (seconds to react).
+  
+  sla-read-body:
+    type: object
+    description: HTTP body defining the read operation for the /read endpoint.
+    required:
+      - requestorID
+      - token
+      - index
+    properties:
+      requestorID:
+        type: string
+        description: Identifier of the requesting entity.
+      token:
+        type: string
+        description: >-
+          A crypto token to validate if the entity is allowed to perform the
+          requested operation.
+      index:
+        type: integer
+        description: Index of the requested data as provided during the store operation.
+  
+  sla-store-response:
+    type: object
+    description: HTTP response for a successful store operation.
+    required:
+      - index
+    properties:
+      index:
+        type: integer
+        description: index of the stored metrics.
+  
+  sla-read-response:
+    type: object
+    description: HTTP response for a successful read operation.
+    required:
+      - requestorID
+      - timeStamp
+      - token
+      - availability
+      - responseTime
+      - CPUPower
+      - diskSpace
+      - memorySize
+      - bandwidth
+      - throughput
+      - connections
+      - elasticity
+    properties:
+      requestorID:
+        type: string
+        description: Identifier of the requesting entity.
+      timeStamp:
+        type: string
+        description: 'The timestamp in the following format - "2006-01-02 15:04:05".'
+      token:
+        type: string
+        description: >-
+          A crypto token to validate if the entity is allowed to perform the
+          requested operation.
+      availability:
+        type: string
+        description: >-
+          The percentage availability of the cloud member resources for a
+          billing cycle.
+      responseTime:
+        type: string
+        description: >-
+          Exact time (seconds) between stimulus to the cloud service and
+          corresponding service's response. The percentage a service manages to
+          respond within the defined response time limit for a billing cycle.
+      CPUPower:
+        type: string
+        description: >-
+          Max. no. of processing power (Hertz) provided by CSP to customer to
+          process his data.
+      diskSpace:
+        type: string
+        description: >-
+          Max. no. of available space (PetaBytes) provided by CSP to customer to
+          store his data.
+      memorySize:
+        type: string
+        description: >-
+          Max. no. of information (GigaBytes) the cloud service is able to hold
+          for the customer to read/write his data.
+      bandwidth:
+        type: string
+        description: >-
+          Amount of outbound data transfers (GigaByte/month), customers will be
+          given the ability to customize the cloud services, and corresponding
+          SLAs, according to the demand and usage of the services.
+      throughput:
+        type: string
+        description: >-
+          Min. no. of requests that can be processed by the cloud service in a
+          stated time period (GigaBytes/sec).
+      connections:
+        type: string
+        description: Max. no. of simultaneous connections.
+      elasticity:
+        type: string
+        description: >-
+          Quickly de/provision resources, dynamically adjust the amount of
+          resources allocated to an instance of a service (seconds to react).
+
+#util definitions
+  query-request:
+    type: object
+    description: HTTP body defining the read operation for the /read endpoint
+    required:
+      - requestorID
+      - token
+      - id
+    properties:
+      requestorID:
+        type: string
+        description: Identifier of the requesting entity.
+      token:
+        type: string
+        description: >-
+          A crypto token to validate if the entity is allowed to perform the
+          requested operation.
+      id:
+        type: integer
+        description: Identifier of the element of interest
+        
+  ack-response:
+    type: object
+    description: HTTP response for a successful store operation
+    required:
+      - message
+    properties:
+      message:
+        type: string
+        description: >-
+          A message signifying that the request action has been successfully executed
