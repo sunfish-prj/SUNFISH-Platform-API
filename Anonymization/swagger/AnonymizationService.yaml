@@ -20,10 +20,10 @@ paths:
         - application/json
       responses:
         '200':
-          description: Success. The body contains the requested MacroConfiguration id 
-        '400': 
+          description: Success. The body contains the requested MacroConfiguration id
+        '400':
           description: Invalid request (invalid MacroConfiguration).
-  /macro/configuration/{id}:
+  '/macro/configuration/{id}':
     get:
       description: |
         Get a `MacroConfiguration` object.
@@ -37,8 +37,8 @@ paths:
         - application/json
       responses:
         '200':
-          description: Success. The body contains the requested MacroConfiguration  
-        '400': 
+          description: Success. The body contains the requested MacroConfiguration
+        '400':
           description: Invalid request (invalid MacroConfiguration id)
         '404':
           description: The MacroConfiguration with the specified id was not found
@@ -58,11 +58,11 @@ paths:
           description: MacroConfiguration
           required: true
           schema:
-            $ref: '#/definitions/MacroConfiguration'          
+            $ref: '#/definitions/MacroConfiguration'
       responses:
         '200':
-          description: Success. The MacroConfiguration was updated  
-        '400': 
+          description: Success. The MacroConfiguration was updated
+        '400':
           description: Invalid request (invalid MacroConfiguration id)
         '404':
           description: The MacroConfiguration with the specified id was not found
@@ -77,8 +77,8 @@ paths:
           type: string
       responses:
         '200':
-          description: Success. The MacroConfiguration was deleted  
-        '400': 
+          description: Success. The MacroConfiguration was deleted
+        '400':
           description: Invalid request (invalid MacroConfiguration id)
         '404':
           description: The MacroConfiguration with the specified id was not found
@@ -99,10 +99,10 @@ paths:
             $ref: '#/definitions/MicroConfiguration'
       responses:
         '200':
-          description: Success. The body contains the requested MicroConfiguration id 
-        '400': 
+          description: Success. The body contains the requested MicroConfiguration id
+        '400':
           description: Invalid request (invalid MicroConfiguration).
-  /micro/configuration/{id}:
+  '/micro/configuration/{id}':
     get:
       description: |
         Get a `MicroConfiguration` object.
@@ -116,8 +116,8 @@ paths:
         - application/json
       responses:
         '200':
-          description: Success. The body contains the requested MicroConfiguration  
-        '400': 
+          description: Success. The body contains the requested MicroConfiguration
+        '400':
           description: Invalid request (invalid MicroConfiguration id)
         '404':
           description: The MicroConfiguration with the specified id was not found
@@ -137,11 +137,11 @@ paths:
           description: MicroConfiguration
           required: true
           schema:
-            $ref: '#/definitions/MicroConfiguration'          
+            $ref: '#/definitions/MicroConfiguration'
       responses:
         '200':
-          description: Success. The MicroConfiguration was updated  
-        '400': 
+          description: Success. The MicroConfiguration was updated
+        '400':
           description: Invalid request (invalid MicroConfiguration id)
         '404':
           description: The MicroConfiguration with the specified id was not found
@@ -156,8 +156,8 @@ paths:
           type: string
       responses:
         '200':
-          description: Success. The MicroConfiguration was deleted  
-        '400': 
+          description: Success. The MicroConfiguration was deleted
+        '400':
           description: Invalid request (invalid MicroConfiguration id)
         '404':
           description: The MicroConfiguration with the specified id was not found
@@ -177,12 +177,12 @@ paths:
           required: true
       responses:
         '200':
-          description: Success. The body contains the uploaded file id 
-        '400': 
+          description: Success. The body contains the uploaded file id
+        '400':
           description: Invalid request
         '500':
           description: Internal server error
-  /file/{id}:
+  '/file/{id}':
     get:
       description: |
         Download a file.
@@ -196,9 +196,9 @@ paths:
         - multipart/form-data
       responses:
         '200':
-          description: Success. The body contains the requested file  
+          description: Success. The body contains the requested file
         '404':
-          description: The file with the specified id was not found  
+          description: The file with the specified id was not found
         '500':
           description: Internal server error.
     delete:
@@ -213,14 +213,14 @@ paths:
       responses:
         '200':
           description: Success. The file was deleted
-        '400': 
+        '400':
           description: Invalid request (invalid file id)
         '404':
           description: The file with the specified id was not found
   /micro:
     post:
       description: |
-        Execute queries with differential privacy
+        Anonymize data
       produces:
         - application/json
       parameters:
@@ -236,13 +236,13 @@ paths:
           type: string
       responses:
         '200':
-          description: Success. The body contains outpu file id. 
-        '404': 
+          description: Success. The body contains outpu file id.
+        '404':
           description: The MicroConfiguration id or file id were not found
   /macro:
     post:
       description: |
-        Anonymize data
+        Execute queries with differential privacy
       produces:
         - application/json
       parameters:
@@ -258,16 +258,13 @@ paths:
           type: string
       responses:
         '200':
-          description: Success. The body contains outpu file id. 
-        '404': 
+          description: Success. The body contains outpu file id.
+        '404':
           description: The MacroConfiguration id or file id were not found
 definitions:
   MacroConfiguration:
     type: object
-    description: >-
-      Configuration for macro anonymization process
+    description: Configuration for macro anonymization process
   MicroConfiguration:
     type: object
-    description: >-
-      Configuration for micro anonymization process
-    
+    description: Configuration for micro anonymization process
