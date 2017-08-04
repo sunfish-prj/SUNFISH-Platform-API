@@ -394,7 +394,8 @@ definitions:
           required:
             - id
             - policy
-   policy-response:
+   
+  policy-response:
      type: object
      description: HTTP response for a successful read operation
      required:
