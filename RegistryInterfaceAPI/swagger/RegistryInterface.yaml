@@ -41,7 +41,7 @@ paths:
         '200':
           description: The response body for a successful response.
           schema:
-            $ref: '#/definitions/policy-response'
+            $ref: '#/definitions/ack-response'
         '400':
           description: 'Invalid request, required parameter(s) missing.'
         '401':
@@ -373,24 +373,7 @@ definitions:
       policyType:
         type: string
         description: The type of the policy.    
-        
-  policy-response:
-    type: object
-    description: HTTP response for a successful read operation
-    required:
-      - policy
-      - expirationTime
-    properties:
-      policy:
-        type: string
-        description: BASE64-enocded data of the requested policy.
-      expirationTime:
-        type: string
-        description: >-
-          Specifies the expiration time of the policy set in milliseconds
-          starting from midnight, January 1, 1970 UTC. After this time the
-          policy set must not be used.
-          
+                  
   policy-ofservice-response:
     type: object
     description: HTTP response containing the list of policies for the service.
@@ -418,7 +401,6 @@ definitions:
     required:
       - requestorID
       - token
-      - timestamp
       - dataID
       - key
     properties:
@@ -430,9 +412,6 @@ definitions:
         description: >-
           A crypto token to validate if the entity is allowed to perform the
           requested operation.
-      timestamp:
-        type: string
-        description: timestamp of registering the key.
       dataID:
         type: string
         description: Identifier of the dataset that the key relates to.
@@ -444,7 +423,7 @@ definitions:
     required:
       - requestorID
       - token
-      - index
+      - dataID
     properties:
       requestorID:
         type: string
@@ -454,26 +433,18 @@ definitions:
         description: >-
           A crypto token to validate if the entity is allowed to perform the
           requested operation.
-      index:
-        type: integer
-        description: Identifier of the key.
+      dataID:
+        type: string
+        description: Identifier of the dataset that the key relates to.
   dm-read-response:
     type: object
     description: HTTP response for a successful read operation
     required:
-      - timestamp
-      - dataID
       - key
     properties:
-      timestamp:
-        type: string
-        description: The timestamp of registering the key.
-      dataID:
-        type: string
-        description: Identifier of the dataset.
       key:
         type: string
-        description: The requested public key.
+        description: The requested masking key.
 
 #Definition for anonymisation service
   anony-register-body:
