@@ -208,6 +208,7 @@ paths:
 #anonymisation service paths
   /anonymisation/register:
     post:
+      operationId: anonymisationRegisterToRegistry
       tags:
       - "anonymisation"
       description: "This endpoint is used to register a data-sharing event.\n"
@@ -231,6 +232,7 @@ paths:
       
   /anonymisation/queryOldRes:
     post:
+      operationId: anonymisationQueryOldRes
       tags:
       - "anonymisation"
       description: "This endpoint is used to query the anonymised statistical result in Registry\
@@ -255,6 +257,7 @@ paths:
   
   /anonymisation/receiveAnonyRes:
     post:
+      operationId: anonymisationReceiveAnonyRes
       description: this endpoint is used to receive anonymised result from the anonymisation interface
       tags:
         - anonymisation
