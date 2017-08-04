@@ -394,7 +394,23 @@ definitions:
           required:
             - id
             - policy
-
+   policy-response:
+     type: object
+     description: HTTP response for a successful read operation
+     required:
+       - policy
+       - expirationTime
+     properties:
+       policy:
+         type: string
+         description: BASE64-enocded data of the requested policy.
+       expirationTime:
+         type: string
+         description: >-
+           Specifies the expiration time of the policy set in milliseconds
+           starting from midnight, January 1, 1970 UTC. After this time the
+           policy set must not be used.
+		   
 #Definitions for Data Masking
   dm-store-body:
     type: object
