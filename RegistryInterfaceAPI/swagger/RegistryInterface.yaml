@@ -279,6 +279,29 @@ paths:
           description: "The operation is not allowed (unauthorised access, the token \
                         \ is invalid, etc.)"
 
+  /anonymisation/updateLedger:
+    post:
+      operationId: anonymisationUpdateLedger
+      description: this endpoint is used to update final result to Registry 
+      tags:
+        - anonymisation
+      parameters:
+        - name: body
+          in: body
+          description: JSON body of the received result
+          required: true
+          schema:
+            $ref: "#/definitions/update-ledger-body"
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/update-ledger-response"
+        400:
+          description: "Invalid request, required parameter(s) missing"
+        401:
+          description: "The operation is not allowed (unauthorised access, the token \
+                        \ is invalid, etc.)"
 #SLA Metrics
   /SLAMetrics/store:
     post:
@@ -498,6 +521,7 @@ definitions:
         type: "string"
         description: "a message in JSON format signifying that the data has been registered."
     description: "HTTP response for a successful register operation"
+
   anony-query-body:
     type: "object"
     required:
@@ -553,47 +577,47 @@ definitions:
         description: "Identifier of the shared dataset."
       ifExist:
         type: "number"
-        description: 0 -- old result does not exist; otherwise -- 1
+        description: "0 -- old result does not exist; otherwise -- 1"
       budget_used:
         type: "number"
-        description: budget consumed
+        description: "budget consumed"
     description: "HTTP response for a successful read operation"
 
   anony-result-body:
-    type: object
-    description: HTTP body definiting the query operation for the 
-                  /ri/anonymisation/receiveAnonyRes endpoint
+    type: "object"
+    description: "HTTP body definiting the query operation for the 
+                  /ri/anonymisation/receiveAnonyRes endpoint"
     required:
-      - requestorID
-      - token
-      - data_consumer
-      - dataID
-      - function_type
-      - budget_used
-      - anonymised_result
+      - "requestorID"
+      - "token"
+      - "data_consumer"
+      - "dataID"
+      - "function_type"
+      - "budget_used"
+      - "anonymised_result"
     properties:
       requestorID:
-        type: string
-        description: Indentifier of the requesting body
+        type: "string"
+        description: "Indentifier of the requesting body"
       token:
-        type: string
-        description: a crypto token to validate if the entity is allowed to perform the 
-                      requested operation.
+        type: "string"
+        description: "a crypto token to validate if the entity is allowed to perform the 
+                      requested operation."
       data_consumer: 
-        type: string
-        description: the name of the data consumer who receives a dataset
+        type: "string"
+        description: "the name of the data consumer who receives a dataset"
       dataID:
-        type: string
-        description: the unique ID of a dataset
+        type: "string"
+        description: "the unique ID of a dataset"
       function_type:
-        type: string
-        description: the queried function type
+        type: "string"
+        description: "the queried function type"
       budget_used: 
-        type: number
-        description: the budget used of differential privacy
+        type: "number"
+        description: "the budget used of differential privacy"
       anonymised_result:
-        type: number
-        description: the anonymised result from anonymisation interface
+        type: "number"
+        description: "the anonymised result from anonymisation interface"
 
   receive-result-response:
     type: object
@@ -609,6 +633,42 @@ definitions:
       final_result:
         type: number
         description: the anonymised result from anonymisation interface
+
+  update-ledger-body:
+    type: "object"
+    description: "HTTP body definiting the update ledger operation for the 
+                  /ri/anonymisation/updateLedger endpoint"
+    required:
+      - "data_provider"
+      - "data_consumer"
+      - "time_stamp"
+      - "dataID"
+      - "anonymised_result"
+    properties:
+      data_provider:
+        type: "string"
+        description: "The name of the data provider who shares a dataset."
+      data_consumer:
+        type: "string"
+        description: "The name of the data consumer who receives a dataset."
+      time_stamp:
+        type: "string"
+        description: "The timestamp in the following format - \"2006-01-02 15:04:05\""
+      dataID:
+        type: "string"
+        description: "Identifier of the shared dataset."
+      anonymised_result:
+        type: "number"
+        description: "the final anonymised result"
+  update-ledger-response:
+    type: string
+    description: successfully update ledger message 
+    required:
+      - message
+    properties:
+      message: 
+        type: string 
+        description: update ledger successfully 
 
 #Definition of SLAMetrics
   sla-store-body:
