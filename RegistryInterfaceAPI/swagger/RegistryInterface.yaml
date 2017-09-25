@@ -363,7 +363,7 @@ definitions:
       - token
       - policy
       - expirationTime
-      - id
+      - policyId
     properties:
       requestorID:
         type: string
@@ -382,7 +382,7 @@ definitions:
           Specifies the expiration time of the policy in milli-seconds starting
           from midnight, January 1, 1970 UTC. After this time the policy set
           must not be used.
-      id:
+      policyId:
         type: string
         description: The identifer for the policy.
       serviceID:
@@ -429,14 +429,14 @@ definitions:
         items:
           type: object
           properties:
-            id:
+            policyId:
               type: string
               description: Specifies the id of the policy.
             policy:
               type: string
               description: BASE64-enocded data of the policy.
           required:
-            - id
+            - policyId
             - policy
    
   policy-response:
@@ -445,6 +445,7 @@ definitions:
      required:
        - policy
        - expirationTime
+       - message
      properties:
        policy:
          type: string
@@ -455,6 +456,10 @@ definitions:
            Specifies the expiration time of the policy set in milliseconds
            starting from midnight, January 1, 1970 UTC. After this time the
            policy set must not be used.
+       message:
+         type: string
+         description: >-
+           message of the operation status
 		   
 #Definitions for Data Masking
   dm-store-body:
