@@ -1,11 +1,11 @@
 swagger: '2.0'
 info:
   version: 2.0.0
-  title: SUNFISH Blockchain API - Alert propagation
+  title: Service Ledger Interface- Alert propagation
   contact:
-    name: Md Sadek Ferdous
-    email: S.Ferdous@soton.ac.uk
-basePath: /api/alert
+    name: Andrea Margheri
+    email: a.margheri@soton.ac.uk
+basePath: /sli/alert
 consumes:
   - application/json
 produces:
@@ -69,27 +69,19 @@ definitions:
     description: HTTP body defining the store operation for the /store endpoint.
     required:
       - requestorID
-      - timeStamp
       - token
-      - alertID
       - alertType
       - alertSource
-      - alert
+      - alertBody
     properties:
       requestorID:
         type: string
         description: Identifier of the requesting entity.
-      timeStamp:
-        type: string
-        description: 'The timestamp in the following format - "2006-01-02 15:04:05".'
       token:
         type: string
         description: >-
           A crypto token to validate if the entity is allowed to perform the
           requested operation.
-      alertID:
-        type: string
-        description: Identifier of the newly created alert.
       alertType:
         type: string
         enum:
@@ -111,7 +103,7 @@ definitions:
           - PVE
           - FSA
         description: Refences the entity which has generated the alert.
-      alert:
+      alertBody:
         type: string
         description: Base64 encoded alert.
   read-body:
@@ -130,41 +122,27 @@ definitions:
         description: >-
           A crypto token to validate if the entity is allowed to perform the
           requested operation.
-      index:
-        type: integer
-        description: Index of the requested data as provided during the store operation.
+      alertID:
+        type: string
+        description: ID of the requested data as provided during the store operation.
   store-response:
     type: object
     description: HTTP response for a successful store operation.
     required:
-      - index
+      - alertID
     properties:
       index:
-        type: integer
-        description: index of the stored alert.
+        type: string
+        description: Identifier of the stored alert.
   read-response:
     type: object
     description: HTTP response for a successful read operation.
     required:
-      - requestorID
-      - timeStamp
-      - token
       - alertID
       - alertType
       - alertSource
-      - alert
+      - alertBody
     properties:
-      requestorID:
-        type: string
-        description: Identifier of the requesting entity.
-      timeStamp:
-        type: string
-        description: 'The timestamp in the following format - "2006-01-02 15:04:05".'
-      token:
-        type: string
-        description: >-
-          A crypto token to validate if the entity is allowed to perform the
-          requested operation.
       alertID:
         type: string
         description: Identifier of the newly created alert.
@@ -189,6 +167,6 @@ definitions:
           - PVE
           - FSA
         description: Refences the entity which has generated the alert.
-      alert:
+      alertBOdy:
         type: string
         description: Base64 encoded alert.
