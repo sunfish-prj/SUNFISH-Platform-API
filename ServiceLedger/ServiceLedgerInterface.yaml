@@ -5,31 +5,26 @@ info:
   contact:
     name: Andrea Margheri
     email: a.margheri@soton.ac.uk
-    
 basePath: /sli
-
-consumes: 
-    - application/json
+consumes:
+  - application/json
 produces:
-    - application/json
-
+  - application/json
 tags:
   - name: policy
-  - name: dm 
-  - name: anony
-  - name: sla 
-  - name: monitoring 
+  - name: dm
+  - name: anonymisation
+  - name: sla
   - name: alert
+  - name: monitoring
   - name: state
-#TODO
   - name: contract
 paths:
-#Policy management paths 
   /policy/store:
     post:
       description: |
         Storing a new policy
-      tags: 
+      tags:
         - policy
       parameters:
         - name: policySpec
@@ -51,12 +46,11 @@ paths:
             invalid, etc.).
         '409':
           description: The operation is not allowed as the policy already exists.
-          
   /policy/read:
     post:
       description: |
         Retrieving a policy by its id
-      tags: 
+      tags:
         - policy
       parameters:
         - name: policyId
@@ -78,15 +72,14 @@ paths:
             invalid, etc.).
         '404':
           description: The requested policy is not found.
-          
   /policy/polService:
     post:
-      description: >
+      description: |
         Retrieving policies associated to a service
-      tags: 
+      tags:
         - policy
       parameters:
-        - name: serviceId 
+        - name: serviceId
           in: body
           description: Body in JSON
           required: true
@@ -103,12 +96,11 @@ paths:
           description: >-
             The operation is not allowed (unauthorised access, the token is
             invalid, etc.).
-            
   /policy/delete:
     post:
       description: |
         Deleting a policy by its id
-      tags: 
+      tags:
         - policy
       parameters:
         - name: policyId
@@ -129,9 +121,7 @@ paths:
             The operation is not allowed (unauthorised access, the token is
             invalid, etc.).
         '404':
-          description: 'The respective policy is not found.'
-
-#Data masking paths 
+          description: The respective policy is not found.
   /dm/store:
     post:
       tags:
@@ -205,61 +195,63 @@ paths:
           description: >-
             The operation is not allowed (unauthorised access, the token is
             invalid, etc.).
-
-#Anonymisation service paths
   /anonymisation/register:
     post:
       operationId: anonymisationRegisterToRegistry
       tags:
-      - "anonymisation"
-      description: "This endpoint is used to register a data-sharing event.\n"
+        - anonymisation
+      description: |
+        This endpoint is used to register a data-sharing event.
       parameters:
-      - in: "body"
-        name: "body"
-        description: "Body in JSON"
-        required: true
-        schema:
-          $ref: "#/definitions/anony-register-body"
-      responses:
-        200:
-          description: "The response body for a successful response."
+        - in: body
+          name: body
+          description: Body in JSON
+          required: true
           schema:
-            $ref: "#/definitions/anony-register-response"
-        400:
-          description: "Invalid request, required parameter(s) missing."
-        401:
-          description: "The operation is not allowed (unauthorised access, the token\
-            \ is invalid, etc.)."
-      
+            $ref: '#/definitions/anony-register-body'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/anony-register-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing.'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
   /anonymisation/queryOldRes:
     post:
       operationId: anonymisationQueryOldRes
       tags:
-      - "anonymisation"
-      description: "This endpoint is used to query the anonymised statistical result in Registry\
-        \ given  the DataId and requested budget.\n"
+        - anonymisation
+      description: >
+        This endpoint is used to query the anonymised statistical result in
+        Registry given  the DataId and requested budget.
       parameters:
-      - in: "body"
-        name: "body"
-        description: "Body in JSON"
-        required: true
-        schema:
-          $ref: "#/definitions/anony-query-body"
-      responses:
-        200:
-          description: "The response body for a successful response."
+        - in: body
+          name: body
+          description: Body in JSON
+          required: true
           schema:
-            $ref: "#/definitions/anony-query-response"
-        400:
-          description: "Invalid request, required parameter(s) missing"
-        401:
-          description: "The operation is not allowed (unauthorised access, the token\
-            \ is invalid, etc.)"
-  
+            $ref: '#/definitions/anony-query-body'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/anony-query-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.)
   /anonymisation/receiveAnonyRes:
     post:
       operationId: anonymisationReceiveAnonyRes
-      description: this endpoint is used to receive anonymised result from the anonymisation interface
+      description: >-
+        this endpoint is used to receive anonymised result from the
+        anonymisation interface
       tags:
         - anonymisation
       parameters:
@@ -268,22 +260,22 @@ paths:
           description: JSON body of the received result
           required: true
           schema:
-            $ref: "#/definitions/anony-result-body"
+            $ref: '#/definitions/anony-result-body'
       responses:
-        200:
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/receive-result-response"
-        400:
-          description: "Invalid request, required parameter(s) missing"
-        401:
-          description: "The operation is not allowed (unauthorised access, the token \
-                        \ is invalid, etc.)"
-
+            $ref: '#/definitions/receive-result-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token  is
+            invalid, etc.)
   /anonymisation/updateLedger:
     post:
       operationId: anonymisationUpdateLedger
-      description: this endpoint is used to update final result to Registry 
+      description: this endpoint is used to update final result to Registry
       tags:
         - anonymisation
       parameters:
@@ -292,19 +284,18 @@ paths:
           description: JSON body of the received result
           required: true
           schema:
-            $ref: "#/definitions/update-ledger-body"
+            $ref: '#/definitions/update-ledger-body'
       responses:
-        200:
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/update-ledger-response"
-        400:
-          description: "Invalid request, required parameter(s) missing"
-        401:
-          description: "The operation is not allowed (unauthorised access, the token \
-                        \ is invalid, etc.)"
-
-#SLA Metrics
+            $ref: '#/definitions/update-ledger-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token  is
+            invalid, etc.)
   /SLAMetrics/store:
     post:
       description: |
@@ -329,7 +320,6 @@ paths:
           description: >-
             The operation is not allowed (unauthorised access, the token is
             invalid, etc.).
-  
   /SLAMetrics/read:
     post:
       description: |
@@ -354,15 +344,12 @@ paths:
           description: >-
             The operation is not allowed (unauthorised access, the token is
             invalid, etc.).
-
-#Monitoring
-
-
-#Alert 
   /alert/store:
     post:
       description: |
         This endpoint is used to store alerts.
+      tags:
+        - alert
       consumes:
         - application/json
       produces:
@@ -373,12 +360,12 @@ paths:
           description: Body in JSON
           required: true
           schema:
-            $ref: '#/definitions/store-alert'
+            $ref: '#/definitions/alert-store'
       responses:
         '200':
           description: The response body for a successful response.
           schema:
-            $ref: '#/definitions/store-alert-response'
+            $ref: '#/definitions/ack-response'
         '400':
           description: 'Invalid request, required parameter(s) missing.'
         '401':
@@ -387,8 +374,11 @@ paths:
             invalid, etc.).
   /alert/read:
     post:
-      description: |
-        This endpoint is used to retrieve the stored alert using the index. The body contains the alert id received by the store api
+      description: >
+        This endpoint is used to retrieve the stored alert using the index. The
+        body contains the alert id received by the store api
+      tags:
+        - alert
       consumes:
         - application/json
       produces:
@@ -411,13 +401,64 @@ paths:
           description: >-
             The operation is not allowed (unauthorised access, the token is
             invalid, etc.).
-
-#State
-
-
+  /monitoring/store:
+    post:
+      description: |
+        This endpoint is used to store relevant monitoring data.
+      tags:
+        - monitoring
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: Body in JSON
+          required: true
+          schema:
+            $ref: '#/definitions/monitoring-store'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/ack-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing.'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
+  /monitoring/read:
+    post:
+      description: |
+        This endpoint is used to read the relevant monitoring data.
+      tags:
+        - monitoring
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: Body in JSON
+          required: true
+          schema:
+            $ref: '#/definitions/query-request'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/monitoring-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing.'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
 
 definitions:
-#Definitions for Policy Management
   policy-request-body:
     type: object
     description: HTTP body defining the input for the store operation of policy
@@ -454,7 +495,6 @@ definitions:
       policyType:
         type: string
         description: The type of the policy.
-        
   policy-ofservice-body:
     type: object
     description: HTTP body defining the read operation for the /read endpoint
@@ -479,8 +519,7 @@ definitions:
           policies belonging to that identifier.
       policyType:
         type: string
-        description: The type of the policy.    
-                  
+        description: The type of the policy.
   policy-ofservice-response:
     type: object
     description: HTTP response containing the list of policies for the service.
@@ -501,30 +540,26 @@ definitions:
           required:
             - policyId
             - policy
-   
   policy-response:
-     type: object
-     description: HTTP response for a successful read operation
-     required:
-       - policy
-       - expirationTime
-       - message
-     properties:
-       policy:
-         type: string
-         description: BASE64-enocded data of the requested policy.
-       expirationTime:
-         type: string
-         description: >-
-           Specifies the expiration time of the policy set in milliseconds
-           starting from midnight, January 1, 1970 UTC. After this time the
-           policy set must not be used.
-       message:
-         type: string
-         description: >-
-           message of the operation status
-		   
-#Definitions for Data Masking
+    type: object
+    description: HTTP response for a successful read operation
+    required:
+      - policy
+      - expirationTime
+      - message
+    properties:
+      policy:
+        type: string
+        description: BASE64-enocded data of the requested policy.
+      expirationTime:
+        type: string
+        description: >-
+          Specifies the expiration time of the policy set in milliseconds
+          starting from midnight, January 1, 1970 UTC. After this time the
+          policy set must not be used.
+      message:
+        type: string
+        description: message of the operation status
   dm-store-body:
     type: object
     required:
@@ -547,198 +582,198 @@ definitions:
       key:
         type: string
         description: Key to be registered.
- 
-#Definition for Anonymisation service
   anony-register-body:
-    type: "object"
+    type: object
     required:
-    - "requestorID"
-    - "token"
-    - "data_provider"
-    - "data_consumer"
-    - "time_stamp"
-    - "dataID"
+      - requestorID
+      - token
+      - data_provider
+      - data_consumer
+      - time_stamp
+      - dataID
     properties:
       requestorID:
-        type: "string"
-        description: "Identifier of the requesting entity."
+        type: string
+        description: Identifier of the requesting entity.
       token:
-        type: "string"
-        description: "A crypto token to validate if the entity is allowed to perform\
-          \ the requested operation."
+        type: string
+        description: >-
+          A crypto token to validate if the entity is allowed to perform the
+          requested operation.
       data_provider:
-        type: "string"
-        description: "The name of the data provider who shares a dataset."
+        type: string
+        description: The name of the data provider who shares a dataset.
       data_consumer:
-        type: "string"
-        description: "The name of the data consumer who receives a dataset."
+        type: string
+        description: The name of the data consumer who receives a dataset.
       time_stamp:
-        type: "string"
-        description: "The timestamp in the following format - \"2006-01-02 15:04:05\""
+        type: string
+        description: 'The timestamp in the following format - "2006-01-02 15:04:05"'
       dataID:
-        type: "string"
-        description: "Identifier of the shared dataset."
-    description: "HTTP body defining the register operation for the /anonymisation/register endpoint."
- 
+        type: string
+        description: Identifier of the shared dataset.
+    description: >-
+      HTTP body defining the register operation for the /anonymisation/register
+      endpoint.
   anony-register-response:
-    type: "object"
+    type: object
     required:
-    - "message"
+      - message
     properties:
       message:
-        type: "string"
-        description: "a message in JSON format signifying that the data has been registered."
-    description: "HTTP response for a successful register operation"
-
+        type: string
+        description: a message in JSON format signifying that the data has been registered.
+    description: HTTP response for a successful register operation
   anony-query-body:
-    type: "object"
+    type: object
     required:
-    - "requestorID"
-    - "token"
-    - "data_consumer"
-    - "dataID"
-    - "function_type"
-    - "request_budget"
+      - requestorID
+      - token
+      - data_consumer
+      - dataID
+      - function_type
+      - request_budget
     properties:
       requestorID:
-        type: "string"
-        description: "Identifier of the requesting entity."
+        type: string
+        description: Identifier of the requesting entity.
       token:
-        type: "string"
-        description: "A crypto token to validate if the entity is allowed to perform\
-          \ the requested operation."
+        type: string
+        description: >-
+          A crypto token to validate if the entity is allowed to perform the
+          requested operation.
       data_consumer:
-        type: "string"
-        description: "The name of the data consumer who receives a dataset."
+        type: string
+        description: The name of the data consumer who receives a dataset.
       dataID:
-        type: "string"
-        description: "The unique ID of a dataset"
+        type: string
+        description: The unique ID of a dataset
       function_type:
-        type: "string"
-        description: "The queried function type"
+        type: string
+        description: The queried function type
       request_budget:
-        type: "number"
-        description: "The requested budget of differential privacy"
-    description: "HTTP body defining the query operation for the /anonymisation/queryOldRes\
-      \ endpoint"
+        type: number
+        description: The requested budget of differential privacy
+    description: >-
+      HTTP body defining the query operation for the /anonymisation/queryOldRes
+      endpoint
   anony-query-response:
-    type: "object"
+    type: object
     required:
-    - "data_provider"
-    - "data_consumer"
-    - "time_stamp"
-    - "dataID"
-    - "ifExist"
-    - "budget_used"
+      - data_provider
+      - data_consumer
+      - time_stamp
+      - dataID
+      - ifExist
+      - budget_used
     properties:
       data_provider:
-        type: "string"
-        description: "The name of the data provider who shares a dataset."
+        type: string
+        description: The name of the data provider who shares a dataset.
       data_consumer:
-        type: "string"
-        description: "The name of the data consumer who receives a dataset."
+        type: string
+        description: The name of the data consumer who receives a dataset.
       time_stamp:
-        type: "string"
-        description: "The timestamp in the following format - \"2006-01-02 15:04:05\""
+        type: string
+        description: 'The timestamp in the following format - "2006-01-02 15:04:05"'
       dataID:
-        type: "string"
-        description: "Identifier of the shared dataset."
+        type: string
+        description: Identifier of the shared dataset.
       ifExist:
-        type: "number"
-        description: "0 -- old result does not exist; otherwise -- 1"
+        type: number
+        description: 0 -- old result does not exist; otherwise -- 1
       budget_used:
-        type: "number"
-        description: "budget consumed"
-    description: "HTTP response for a successful read operation"
-
+        type: number
+        description: budget consumed
+    description: HTTP response for a successful read operation
   anony-result-body:
-    type: "object"
-    description: "HTTP body definiting the query operation for the 
-                  /ri/anonymisation/receiveAnonyRes endpoint"
+    type: object
+    description: >-
+      HTTP body definiting the query operation for the 
+      /ri/anonymisation/receiveAnonyRes endpoint
     required:
-      - "requestorID"
-      - "token"
-      - "data_consumer"
-      - "dataID"
-      - "function_type"
-      - "budget_used"
-      - "anonymised_result"
+      - requestorID
+      - token
+      - data_consumer
+      - dataID
+      - function_type
+      - budget_used
+      - anonymised_result
     properties:
       requestorID:
-        type: "string"
-        description: "Indentifier of the requesting body"
+        type: string
+        description: Indentifier of the requesting body
       token:
-        type: "string"
-        description: "a crypto token to validate if the entity is allowed to perform the 
-                      requested operation."
-      data_consumer: 
-        type: "string"
-        description: "the name of the data consumer who receives a dataset"
+        type: string
+        description: >-
+          a crypto token to validate if the entity is allowed to perform the 
+          requested operation.
+      data_consumer:
+        type: string
+        description: the name of the data consumer who receives a dataset
       dataID:
-        type: "string"
-        description: "the unique ID of a dataset"
+        type: string
+        description: the unique ID of a dataset
       function_type:
-        type: "string"
-        description: "the queried function type"
-      budget_used: 
-        type: "number"
-        description: "the budget used of differential privacy"
+        type: string
+        description: the queried function type
+      budget_used:
+        type: number
+        description: the budget used of differential privacy
       anonymised_result:
-        type: "number"
-        description: "the anonymised result from anonymisation interface"
-
+        type: number
+        description: the anonymised result from anonymisation interface
   receive-result-response:
     type: object
-    description: HTTP response definiting the query operation for the 
-                  /ri/anonymisation/receiveAnonyRes endpoint
+    description: >-
+      HTTP response definiting the query operation for the
+      /ri/anonymisation/receiveAnonyRes endpoint
     required:
       - final_status
       - final_result
     properties:
-      final_status: 
+      final_status:
         type: number
         description: the statue of the final result (0 -- null result)
       final_result:
         type: number
         description: the anonymised result from anonymisation interface
-
   update-ledger-body:
-    type: "object"
-    description: "HTTP body definiting the update ledger operation for the 
-                  /ri/anonymisation/updateLedger endpoint"
+    type: object
+    description: >-
+      HTTP body definiting the update ledger operation for the 
+      /ri/anonymisation/updateLedger endpoint
     required:
-      - "data_provider"
-      - "data_consumer"
-      - "time_stamp"
-      - "dataID"
-      - "anonymised_result"
+      - data_provider
+      - data_consumer
+      - time_stamp
+      - dataID
+      - anonymised_result
     properties:
       data_provider:
-        type: "string"
-        description: "The name of the data provider who shares a dataset."
+        type: string
+        description: The name of the data provider who shares a dataset.
       data_consumer:
-        type: "string"
-        description: "The name of the data consumer who receives a dataset."
+        type: string
+        description: The name of the data consumer who receives a dataset.
       time_stamp:
-        type: "string"
-        description: "The timestamp in the following format - \"2006-01-02 15:04:05\""
+        type: string
+        description: 'The timestamp in the following format - "2006-01-02 15:04:05"'
       dataID:
-        type: "string"
-        description: "Identifier of the shared dataset."
+        type: string
+        description: Identifier of the shared dataset.
       anonymised_result:
-        type: "number"
-        description: "the final anonymised result"
+        type: number
+        description: the final anonymised result
   update-ledger-response:
     type: string
-    description: successfully update ledger message 
+    description: successfully update ledger message
     required:
       - message
     properties:
-      message: 
-        type: string 
-        description: update ledger successfully 
-
-#Definition for SLAMetrics
+      message:
+        type: string
+        description: update ledger successfully
   sla-store-body:
     type: object
     description: HTTP body defining the store operation for the /store endpoint.
@@ -812,7 +847,6 @@ definitions:
         description: >-
           Quickly de/provision resources, dynamically adjust the amount of
           resources allocated to an instance of a service (seconds to react).
-  
   sla-read-body:
     type: object
     description: HTTP body defining the read operation for the /read endpoint.
@@ -832,7 +866,6 @@ definitions:
       index:
         type: integer
         description: Index of the requested data as provided during the store operation.
-  
   sla-store-response:
     type: object
     description: HTTP response for a successful store operation.
@@ -842,7 +875,6 @@ definitions:
       index:
         type: integer
         description: index of the stored metrics.
-  
   sla-read-response:
     type: object
     description: HTTP response for a successful read operation.
@@ -916,9 +948,7 @@ definitions:
         description: >-
           Quickly de/provision resources, dynamically adjust the amount of
           resources allocated to an instance of a service (seconds to react).
-
-#Definition for Alert
-store-alert-body:
+  alert-store:
     type: object
     description: HTTP body defining the store operation for the /store endpoint.
     required:
@@ -960,8 +990,96 @@ store-alert-body:
       alertBody:
         type: string
         description: Base64 encoded alert.
-        
-#util definitions
+  monitoring-store:
+    type: object
+    description: >-
+      HTTP body defining the store operation for the /store endpoint and the
+      read operation for the /read endpoint.
+    required:
+      - requestorID
+      - token
+      - monitoringID
+      - loggerID
+      - timeStamp
+      - dataType
+      - data
+    properties:
+      requestorID:
+        type: string
+        description: >-
+          Identifier of a particular protocol flow which is used to bind
+          different access logs from different entities.
+      token:
+        type: string
+        description: >-
+          A crypto token to validate if the entity is allowed to perform the
+          requested operation.
+      monitoringID:
+        type: string
+        description: >-
+          Identifier of a particular protocol flow which is used to bind
+          different access logs from different entities. 
+      loggerID:
+        type: string
+        description: Identifier of the requesting entity.
+      timeStamp:
+        type: string
+        description: 'The timestamp in the following format - "2006-01-02 15:04:05".'
+      dataType:
+        type: string
+        enum:
+          - REQUEST
+          - RESPONSE
+        description: 'REQUEST/RESPONE, can be one of these values.'''
+      data:
+        type: string
+        description: Base64 encoded XACML request/response.
+  monitoring-response:
+    type: object
+    description: HTTP response containing the list of policies for the service.
+    required:
+      - requestorID
+      - token
+      - monitoringID
+    properties:
+      requestorID:
+        type: string
+        description: 'Identifier of the '
+      token:
+        type: string
+        description: >-
+          A crypto token to validate if the entity is allowed to perform the
+          requested operation.
+      monitoringID:
+        type: string
+        description: >-
+          Identifier of a particular protocol flow which is used to bind
+          different access logs from different entities. 
+      list:
+        type: array
+        items:
+          type: object
+          properties:
+            loggerID:
+              type: string
+              description: Identifier of the requesting entity.
+            timeStamp:
+              type: string
+              description: 'The timestamp in the following format - "2006-01-02 15:04:05".'
+            dataType:
+              type: string
+              enum:
+                - REQUEST
+                - RESPONSE
+              description: 'REQUEST/RESPONE, can be one of these values.'''
+            data:
+              type: string
+              description: Base64 encoded XACML request/response.
+          required:
+            - loggerID
+            - timeStamp
+            - dataType
+            - data
   query-request:
     type: object
     description: HTTP body defining the read operation for the /read endpoint
@@ -981,7 +1099,6 @@ store-alert-body:
       dataId:
         type: string
         description: Data of interest
-        
   ack-response:
     type: object
     description: HTTP response for a successful store operation
@@ -991,4 +1108,5 @@ store-alert-body:
       message:
         type: string
         description: >-
-          A message signifying that the request action has been successfully executed
+          A message signifying that the request action has been successfully
+          executed
