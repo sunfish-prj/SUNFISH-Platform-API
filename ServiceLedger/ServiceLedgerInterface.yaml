@@ -14,7 +14,6 @@ tags:
   - name: policy
   - name: dm
   - name: anonymisation
-  - name: sla
   - name: alert
   - name: monitoring
   - name: state
@@ -409,7 +408,240 @@ paths:
           description: >-
             The operation is not allowed (unauthorised access, the token is
             invalid, etc.).
-
+  /state/service-store:
+    post:
+      tags:
+        - state
+      description: |
+        Storing federated services
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: Body in JSON
+          required: true
+          schema:
+            $ref: '#/definitions/state-service-store-body'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/ack-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing.'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
+  /state/service-read:
+    post:
+      tags:
+        - state
+      description: |
+        Storing federated services
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: Body in JSON cotaining the service id
+          required: true
+          schema:
+            $ref: '#/definitions/query-request'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/state-service-request-body'
+        '400':
+          description: 'Invalid request, required parameter(s) missing.'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
+  /state/member-store:
+    post:
+      tags:
+        - state
+      description: |
+        Storing federated services
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: Body in JSON
+          required: true
+          schema:
+            $ref: '#/definitions/state-member-store-body'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/ack-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing.'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
+  /state/member-read:
+    post:
+      tags:
+        - state
+      description: |
+        Storing federated services
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: Body in JSON cotaining the service id
+          required: true
+          schema:
+            $ref: '#/definitions/query-request'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/state-member-request-body'
+        '400':
+          description: 'Invalid request, required parameter(s) missing.'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
+  /state/vm-store:
+    post:
+      tags:
+        - state
+      description: |
+        Storing federated services
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: Body in JSON
+          required: true
+          schema:
+            $ref: '#/definitions/state-vm-store-body'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/ack-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing.'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
+  /state/vm-read:
+    post:
+      tags:
+        - state
+      description: |
+        Storing federated services
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: Body in JSON cotaining the vm id
+          required: true
+          schema:
+            $ref: '#/definitions/query-request'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/state-vm-request-body'
+        '400':
+          description: 'Invalid request, required parameter(s) missing.'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
+  /state/tenant-create:
+    post:
+      tags:
+        - state
+      description: |
+        Creating a tenant
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: Body in JSON
+          required: true
+          schema:
+            $ref: '#/definitions/state-tenant-store-body'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/ack-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing.'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
+  /state/tenant-addMember:
+    post:
+      tags:
+        - state
+      description: |
+        Creating a tenant
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: Body in JSON
+          required: true
+          schema:
+            $ref: '#/definitions/state-tenant-store-member-body'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/ack-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing.'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
+  /state/tenant-read:
+    post:
+      tags:
+        - state
+      description: |
+        Storing federated services
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: Body in JSON cotaining the service id
+          required: true
+          schema:
+            $ref: '#/definitions/query-request'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/state-tenant-request-body'
+        '400':
+          description: 'Invalid request, required parameter(s) missing.'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
 definitions:
   policy-request-body:
     type: object
@@ -931,6 +1163,215 @@ definitions:
             - timeStamp
             - dataType
             - data
+  state-service-store-body:
+    type: object
+    description: HTTP body defining the service store operation
+    required:
+      - requestorID
+      - token
+      - serviceID
+      - tenantID
+      - name
+      - protocol
+    properties:
+      requestorID:
+        type: string
+        description: Identifier of the requesting entity.
+      token:
+        type: string
+        description: >-
+          A crypto token to validate if the entity is allowed to perform the
+          requested operation.
+      serviceID:
+        type: string
+        description: Identifier of the service.
+      tenantID:
+        type: string
+        description: Identifier of the tenant.
+      name:
+        type: string
+        description: Name of the service.
+      protocol:
+        type: string
+        description: protocol used by the service.
+  state-service-request-body:
+    type: object
+    description: HTTP body defining the service store operation
+    required:
+      - serviceID
+      - tenantID
+      - name
+      - protocol
+    properties:
+      serviceID:
+        type: string
+        description: Identifier of the service.
+      tenantID:
+        type: string
+        description: Identifier of the tenant.
+      name:
+        type: string
+        description: Name of the service.
+      protocol:
+        type: string
+        description: protocol used by the service.
+  state-member-store-body:
+    type: object
+    description: HTTP body defining the service store operation
+    required:
+      - requestorID
+      - token
+      - id
+      - name
+    properties:
+      requestorID:
+        type: string
+        description: Identifier of the requesting entity.
+      token:
+        type: string
+        description: >-
+          A crypto token to validate if the entity is allowed to perform the
+          requested operation.
+      id:
+        type: string
+        description: Identifier of the member cloud.
+      name:
+        type: string
+        description: Name of the service.
+  state-member-request-body:
+    type: object
+    description: HTTP body defining the service store operation
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+        description: Identifier of the member cloud.
+      name:
+        type: string
+        description: Name of the service.
+  state-tenant-store-body:
+    type: object
+    description: HTTP body defining the service store operation
+    required:
+      - requestorID
+      - token
+      - id
+      - name
+    properties:
+      requestorID:
+        type: string
+        description: Identifier of the requesting entity.
+      token:
+        type: string
+        description: >-
+          A crypto token to validate if the entity is allowed to perform the
+          requested operation.
+      id:
+        type: string
+        description: Identifier of the tenant.
+      name:
+        type: string
+        description: Name of the tenant.
+  state-tenant-store-member-body:
+    type: object
+    description: HTTP body defining the service store operation
+    required:
+      - id
+      - cloudMemberID
+    properties:
+      id:
+        type: string
+        description: Identifier of the tenant to wich add the member cloud
+      cloudMemberID:
+        type: string
+        description: Name of the cloud member to add to the tenant.
+  state-vm-store-body:
+    type: object
+    description: HTTP body defining the service store operation
+    required:
+      - requestorID
+      - token
+      - id
+      - name
+      - os
+      - disk
+      - cloudMemberID
+    properties:
+      requestorID:
+        type: string
+        description: Identifier of the requesting entity.
+      token:
+        type: string
+        description: >-
+          A crypto token to validate if the entity is allowed to perform the
+          requested operation.
+      id:
+        type: string
+        description: Identifier of the vm.
+      name:
+        type: string
+        description: Name of the vm.
+      os:
+        type: string
+        description: Name of the os of the vm.
+      disk:
+        type: string
+        description: Description of the disk of the vm.
+      cloudMemberID:
+        type: string
+        description: Name of the cloud member owner of the id.
+  state-vm-request-body:
+    type: object
+    description: HTTP body defining the service store operation
+    required:
+      - id
+      - name
+      - os
+      - disk
+      - cloudMemberID
+    properties:
+      id:
+        type: string
+        description: Identifier of the vm.
+      name:
+        type: string
+        description: Name of the vm.
+      os:
+        type: string
+        description: Name of the os of the vm.
+      disk:
+        type: string
+        description: Description of the disk of the vm.
+      cloudMemberID:
+        type: string
+        description: Name of the cloud member owner of the id.
+  state-tenant-request-body:
+    type: object
+    description: HTTP body defining the service store operation
+    required:
+      - id
+      - name
+      - cloudMemberIDs
+    properties:
+      id:
+        type: string
+        description: Identifier of the member cloud.
+      name:
+        type: string
+        description: Name of the service.
+      cloudMemberIDs:
+        type: array
+        description: list of member cloud ids in the tenant
+        items:
+          type: object
+          properties:
+            memberId:
+              type: string
+              description: Specifies the id of the membet.
+          required:
+            - memberId
   query-request:
     type: object
     description: HTTP body defining the read operation for the /read endpoint
