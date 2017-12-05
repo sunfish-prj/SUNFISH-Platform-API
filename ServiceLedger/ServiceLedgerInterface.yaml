@@ -17,7 +17,7 @@ tags:
   - name: alert
   - name: monitoring
   - name: state
-  - name: contract
+  - name: proposal
 paths:
   /policy/store:
     post:
@@ -642,12 +642,12 @@ paths:
           description: >-
             The operation is not allowed (unauthorised access, the token is
             invalid, etc.).
-  /contract/submitProposal:
+  /proposal/submitProposal:
     post:
       tags:
-        - contract
+        - proposal
       description: |
-        Submitting a proposal of contract
+        Submitting a proposal 
       consumes:
         - application/json
       parameters:
@@ -656,7 +656,7 @@ paths:
           description: Body in JSON
           required: true
           schema:
-            $ref: '#/definitions/submit-contract-body'
+            $ref: '#/definitions/submit-proposal-body'
       responses:
         '200':
           description: The response body for a successful response.
@@ -667,7 +667,59 @@ paths:
         '401':
           description: >-
             The operation is not allowed (unauthorised access, the token is
-            invalid, etc.).          
+            invalid, etc.).
+  /proposal/getProposal:
+    post:
+      tags:
+        - proposal
+      description: |
+        getting a proposal
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: Body in JSON
+          required: true
+          schema:
+            $ref: '#/definitions/get-proposal-body'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/get-proposal-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing.'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).      
+  /proposal/voteProposal:
+    post:
+      tags:
+        - proposal
+      description: |
+        Submitting a proposal 
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: Body in JSON
+          required: true
+          schema:
+            $ref: '#/definitions/vote-proposal-body'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/ack-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing.'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
 definitions:
   policy-request-body:
     type: object
@@ -1398,9 +1450,9 @@ definitions:
               description: Specifies the id of the membet.
           required:
             - memberId
-  submit-contract-body:
+  submit-proposal-body:
     type: object
-    description: body for sumitting a proposol of amendment of the federation contract
+    description: body for sumitting a porposal for the federation
     required:
       - requestorID
       - token
@@ -1418,7 +1470,7 @@ definitions:
           requested operation.
       proposalID:
         type: string
-        description: identifier of the proposal
+        description: identifier of the proposal.
       typeProposal:
         type: string
         enum:
@@ -1427,7 +1479,89 @@ definitions:
           - UPDATE
       proposal:
         type: string
-        description: body of the proposal
+        description: body of the proposal.
+  vote-proposal-body:
+    type: object
+    description: vote for a submitted proposal. 
+    required:
+      - memberID
+      - token
+      - proposalID
+      - vote
+    properties:
+      memberID:
+        type: string
+        description: Identifier of the voter member.
+      token:
+        type: string
+        description: >-
+          A crypto token to validate if the entity is allowed to perform the
+          requested operation.
+      proposalID:
+        type: string
+        description: identifier of the proposal.
+      vote:
+        type: string
+        description: body of the proposal.
+  get-proposal-body:
+    type: object
+    description: body for getting a porposal to vote by the federated member.
+    required:
+      - requestorID
+      - proposalID
+      - token
+    properties:
+      requestorID:
+        type: string
+        description: Identifier of the requesting entity.
+      token:
+        type: string
+        description: >-
+          A crypto token to validate if the entity is allowed to perform the
+          requested operation.
+      proposalID:
+        type: string
+        description: Identifier of the proposal.
+  get-proposal-response:
+    type: object
+    description: response message body of the getProposal function
+    required:
+      - proposalID
+      - typeProposal
+      - proposalStatus
+      - proposal
+    properties:
+      proposalID:
+        type: string
+        description: Itendifier of the proposal.
+      typeProposal:
+        type: string
+        enum:
+          - JOIN
+          - LEAVE
+          - UPDATE
+      proposalStatus:
+        type: string
+        description: Itendifier of the pcurrent satus of the votes of the porposal.
+      proposal:
+        type: array
+        description: proposal infos about its descripton and the member who propose it.
+        items:
+          type: object
+          properties:
+            proposerId:
+              type: string
+              description: Specifies the id of who make the proposal.
+            proposalDescription:
+              type: string
+              description: specifies the description of the proposal to vote.
+            proposalQuorum:
+             type: string
+             description: this value is the number of voted needed to achieve acceptthe proposal.
+          required:
+            - proposerId
+            - proposalDescription
+            - proposalQuorum
   query-request:
     type: object
     description: HTTP body defining the read operation for the /read endpoint
