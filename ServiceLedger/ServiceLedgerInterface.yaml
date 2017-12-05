@@ -345,7 +345,7 @@ paths:
         '200':
           description: The response body for a successful response.
           schema:
-            $ref: '#/definitions/ack-response'
+            $ref: '#/definitions/alert-body'
         '400':
           description: 'Invalid request, required parameter(s) missing.'
         '401':
@@ -1115,6 +1115,7 @@ definitions:
     required:
       - requestorID
       - token
+      - alertID
       - alertType
       - alertSource
       - alertBody
@@ -1127,6 +1128,45 @@ definitions:
         description: >-
           A crypto token to validate if the entity is allowed to perform the
           requested operation.
+      alertID:
+        type: string
+        description: Identifier of the alert.
+      alertType:
+        type: string
+        enum:
+          - POLICY_VIOLATION_ALERT
+          - REQ_RESP_DISCREPANCY_ALERT
+          - AUDIT_ALERT
+          - SLA_ALERT
+        description: >-
+          POLICY_VIOLATION_ALERT, created by the PVE, corresponds to an alert
+          regarding a policy violation. REQ_RESP_DISCREPANCY_ALERT, created by
+          the PVE, corresponds to an alert regarding a discrepancy of an XACML
+          request/response. AUDIT_ALERT, created by the FSA, corresponds to an
+          alert which is generated after performing offline analysis over the
+          access control logs.SLA_ALERT, created by FAM, corresponds to an alert
+          which is generated after an SLA violation is detected.
+      alertSource:
+        type: string
+        enum:
+          - PVE
+          - FSA
+        description: Refences the entity which has generated the alert.
+      alertBody:
+        type: string
+        description: Base64 encoded alert.
+  alert-body:
+    type: object
+    description: HTTP body defining the body of an alert
+    required:
+      - alertID
+      - alertType
+      - alertSource
+      - alertBody
+    properties:
+      alertID:
+        type: string
+        description: Identifier of the alert.
       alertType:
         type: string
         enum:
