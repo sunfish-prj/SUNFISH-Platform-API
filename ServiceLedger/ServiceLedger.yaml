@@ -2,28 +2,23 @@
 swagger: "2.0"
 info:
   version: "2.1.0"
-  title: "SUNFISH Registry"
+  title: "SUNFISH Service Ledger"
   contact:
     name: "Federico Lombardi"
     email: "f.lombardi@soton.ac.uk"
-
-basePath: "/r"
-
+basePath: "/sl"
 tags:
-- name: "put"
-- name: "get"
-- name: "delete"
-
+- name: "store"
+- name: "exec"
 consumes:
 - "application/json"
 produces:
 - "application/json"
-
-paths:  
+paths:
   /put:
     post:
       tags:
-      - "put"
+      - "store"
       description: "Storing a key-value pair\n"
       operationId: "putPOST"
       parameters:
@@ -43,11 +38,11 @@ paths:
         401:
           description: "The operation is not allowed."
       x-swagger-router-controller: "Put"
-  
+        
   /get:
     post:
       tags:
-      - "get"
+      - "store"
       description: "Retrieving a value by its key\n"
       operationId: "getPOST"
       parameters:
@@ -69,11 +64,11 @@ paths:
         404:
           description: "The requested key is not found."
       x-swagger-router-controller: "Get"
-  
+
   /delete:
     post:
       tags:
-      - "delete"
+      - "store"
       description: "Delete a stored key\n"
       operationId: "deletePOST"
       parameters:
@@ -93,8 +88,31 @@ paths:
           description: "The operation is not allowed."
       x-swagger-router-controller: "Delete"
 
+  /invoke:
+    post:
+      tags:
+      - "exec"
+      description: "invoke the functions in the chaincode"
+      operationId: "invokePOST"
+      parameters:
+      - in: "body"
+        name: "invokeSpec"
+        required: true
+        schema:
+          $ref: "#/definitions/invoke-chaincode-body"
+      responses:
+        200:
+          description: "The response body for a successful chaincode invoke"
+          schema:
+            $ref: "#/definitions/response"
+        400:
+          description: "Invalid request, required parameter(s) missing."
+        401:
+          description: "The operation is not allowed"
+      x-swagger-router-controller: "Invoke"
+
 definitions:
-  
+
   put-request-body:
     type: "object"
     required:
@@ -118,7 +136,7 @@ definitions:
         type: "string"
         description: "Identifier of the requesting entity."
     description: "HTTP body defining the input for get operations"
-  
+
   delete-request-body:
     type: "object"
     required:
@@ -128,6 +146,114 @@ definitions:
         type: "string"
         description: "Identifier of the requesting entity."
     description: "HTTP body defining the input for delete operations"
+
+  setup-ledger-body:
+    type: "object"
+    required:
+    - "username"
+    - "orgName"
+    - "channelName"
+    - "channelConfigPath"
+    - "peers"
+    properties:
+      username:
+        type: "string"
+        description: "register this user to Hyperledger"
+      orgName:
+        type: "string"
+        description: "organisation of this user"
+      channelName:
+        type: "string"
+        description: "channel Name"
+      channelConfigPath:
+        type: "string"
+        description: "path of channel config file"
+      peers:
+        type: "array"
+        items:
+          type: "string"
+        description: "peers to join this channel"
+
+  install-chaincode-body:
+    type: "object"
+    required:
+    - "authorization"
+    - "peers"
+    - "chaincodeName"
+    - "chaincodePath"
+    - "chaincodeType"
+    - "chaincodeVersion"
+    properties:
+      authorization:
+        type: "string"
+      peers:
+        type: "array"
+        items: 
+          type: "string"
+        description: "peers to install the chaincode"
+      chaincodeName:
+        type: "string"
+        description: "name of the chaincode"
+      chaincodePath:
+        type: "string"
+        description: "path of the chaincode"
+      chaincodeType:
+        type: "string"
+        description: "chaincode type (golang, java etc.)"
+      chaincodeVersion:
+        type: "string"
+        description: "version of the chaincode"
+
+  init-chaincode-body:
+    type: "object"
+    required:
+    - "authorization"
+    - "chaincodeName"
+    - "chaincodeVersion"
+    - "chaincodeType"
+    - "args"
+    properties:
+      authorization:
+        type: "string"
+      chaincodeName:
+        type: "string"
+        description: "name of the chaincode"
+      chaincodeVersion:
+        type: "string"
+        description: "version of the chaincode"
+      chaincodeType:
+        type: "string"
+        description: "chaincode type (golang, java etc.)"
+      args:
+        type: "array"
+        items:
+          type: "string"
+        description: "initial arguments of the chaincode"
+
+  invoke-chaincode-body:
+    type: "object"
+    required:
+    # - "authorization"
+    - "chaincodeName"
+    - "fcn"
+    - "args"
+    properties:
+      # authorization:
+      #  type: "string"
+      channel:
+        type: "string"
+      peer:
+        type: "string"
+      chaincodeName:
+        type: "string"
+      fcn:
+        type: "string"
+        description: "function name to invoke"
+      args:
+        type: "array"
+        items:
+          type: "string"
+        description: "arguments of the function"
 
   response:
     type: "object"
@@ -139,3 +265,5 @@ definitions:
         description: "A message signifying that the request action has been successfully\
           \ executed"
     description: "HTTP response for a successful store operation"
+    example:
+      message: "aeiou"
