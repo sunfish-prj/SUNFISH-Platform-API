@@ -415,7 +415,7 @@ paths:
       description: | 
         Get all the key of a category
       consumes: 
-        - application/jason
+        - application/json
       parameters: 
         - name: body
           in: body
