@@ -408,6 +408,33 @@ paths:
           description: >-
             The operation is not allowed (unauthorised access, the token is
             invalid, etc.).
+  /state/getKeys: 
+    post: 
+      tags: 
+        - state
+      description: | 
+        Get all the key of a category
+      consumes: 
+        - application/jason
+      parameters: 
+        - name: body
+          in: body
+          description: Body in JSON
+          required: true
+          schema:
+            $ref: '#/definitions/key-get-body'
+      responses:
+        '200':
+          description: The response body for a successful response.
+          schema:
+            $ref: '#/definitions/key-response'
+        '400':
+          description: 'Invalid request, required parameter(s) missing.'
+        '401':
+          description: >-
+            The operation is not allowed (unauthorised access, the token is
+            invalid, etc.).
+          
   /state/service-store:
     post:
       tags:
@@ -1307,6 +1334,36 @@ definitions:
             - timeStamp
             - dataType
             - data
+  key-get-body:
+    type: object
+    description: HTTP response containing the list of keys for a category
+    required: 
+      - keyType
+    properties: 
+      keyType: 
+        type: string
+        enum: 
+          - SERVICE
+          - MEMBER
+          - VM
+          - TENANT
+        description: category of key to retrieve
+  key-response: 
+    type: object
+    description: HTTP response containing the list of keys for a category
+    required:
+      - list
+    properties:
+      list:
+        type: array
+        items:
+          type: object
+          properties:
+            keyId:
+              type: string
+              description: Specifies the key id.
+          required:
+            - keyId  
   state-service-store-body:
     type: object
     description: HTTP body defining the service store operation
