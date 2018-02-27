@@ -808,6 +808,7 @@ definitions:
       - policy
       - expirationTime
       - policyId
+      - policyType
     properties:
       requestorID:
         type: string
@@ -835,6 +836,9 @@ definitions:
       policyType:
         type: string
         description: The type of the policy.
+        enum: 
+          - POLICY_AC
+          - POLICY_SLA
   policy-ofservice-body:
     type: object
     description: HTTP body defining the read operation for the /read endpoint
@@ -879,7 +883,7 @@ definitions:
           required:
             - policyId
             - policy
-            -policyType
+            - policyType
   policy-response:
     type: object
     description: HTTP response for a successful read operation
@@ -1374,6 +1378,7 @@ definitions:
           - TENANT
           - POLICY_AC
           - POLICY_SLA
+          - ALERT
         description: category of key to retrieve
   key-response: 
     type: object
@@ -1401,6 +1406,7 @@ definitions:
       - tenantID
       - name
       - protocol
+      - url 
     properties:
       requestorID:
         type: string
@@ -1422,6 +1428,9 @@ definitions:
       protocol:
         type: string
         description: protocol used by the service.
+      url:
+        type: string
+        description: url used by the service.
   state-service-request-body:
     type: object
     description: HTTP body defining the service store operation
@@ -1430,6 +1439,7 @@ definitions:
       - tenantID
       - name
       - protocol
+      - url
     properties:
       serviceID:
         type: string
@@ -1441,6 +1451,9 @@ definitions:
         type: string
         description: Name of the service.
       protocol:
+        type: string
+        description: protocol used by the service.
+      url:
         type: string
         description: protocol used by the service.
   state-member-store-body:
@@ -1487,6 +1500,7 @@ definitions:
       - token
       - id
       - name
+      - url
     properties:
       requestorID:
         type: string
@@ -1502,6 +1516,9 @@ definitions:
       name:
         type: string
         description: Name of the tenant.
+      url:
+        type: string
+        description: Url of the tenant.
   state-tenant-store-member-body:
     type: object
     description: HTTP body defining the service store operation
@@ -1582,6 +1599,7 @@ definitions:
       - id
       - name
       - cloudMemberIDs
+      - url
     properties:
       id:
         type: string
@@ -1589,6 +1607,9 @@ definitions:
       name:
         type: string
         description: Name of the service.
+      url:
+        type: string
+        description: Url of the tenant.
       cloudMemberIDs:
         type: array
         description: list of member cloud ids in the tenant
