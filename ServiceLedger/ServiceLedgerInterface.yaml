@@ -791,7 +791,7 @@ paths:
         '200':
           description: The response body for a successful response.
           schema:
-            $ref: '#/definitions/countvotes-proposal-response'
+            $ref: '#/definitions/ack-response'
         '400':
           description: 'Invalid request, required parameter(s) missing.'
         '401':
@@ -1630,7 +1630,6 @@ definitions:
       - proposalDescription
       - proposalType
       - proposalQuorum
-      - proposalStatus
       - votersNumber
     properties:
       requestorID:
@@ -1659,14 +1658,6 @@ definitions:
           - unanimity
           - majority
           - oneThird
-      proposalStatus:
-        type: string
-        description: >-
-          It indicates the curent status of a proposal at the beginning will be submitted as "pending", after a vote session become "accepted" or "rejected"
-        enum:
-          - pending
-          - accepted
-          - rejected
       votersNumber:
         type: string
         description: >-
